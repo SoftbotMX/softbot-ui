@@ -1,0 +1,81 @@
+/** @type {import('stylelint').Config} */
+
+export default {
+  extends: ["stylelint-config-standard"],
+  plugins: ["stylelint-order"],
+  overrides: [{ files: ["**/*.html"], customSyntax: "postcss-html" }],
+  rules: {
+    "function-no-unknown": [true, { ignoreFunctions: ["oklch", "color-mix"] }],
+    "color-function-notation": "modern",
+    "order/properties-order": [
+      [
+        {
+          properties: [
+            "display",
+            "position",
+            "inset",
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "z-index",
+            "flex",
+            "flex-grow",
+            "flex-shrink",
+            "flex-basis",
+            "grid",
+            "grid-area",
+            "grid-template",
+            "place-items",
+            "align-items",
+            "justify-content",
+          ],
+        },
+        {
+          properties: [
+            "box-sizing",
+            "width",
+            "min-width",
+            "max-width",
+            "height",
+            "min-height",
+            "max-height",
+            "overflow",
+            "aspect-ratio",
+          ],
+        },
+        {
+          properties: [
+            "margin",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
+            "padding",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+          ],
+        },
+        { properties: ["border", "border-radius", "outline"] },
+        { properties: ["background", "color"] },
+        {
+          properties: [
+            "font",
+            "font-size",
+            "font-weight",
+            "line-height",
+            "letter-spacing",
+            "text-align",
+            "text-decoration",
+          ],
+        },
+        { properties: ["gap", "column-gap", "row-gap"] },
+        { properties: ["box-shadow", "opacity", "transform", "transition"] },
+      ],
+      { unspecified: "bottomAlphabetical" },
+    ],
+    "selector-class-pattern": null,
+  },
+};

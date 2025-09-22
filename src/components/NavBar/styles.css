@@ -1,0 +1,32 @@
+nav {
+  --bg: var(--color-base-100);
+  --navh: var(--nav-height);
+
+  display: grid;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: var(--navh);
+  background: var(--color-base-100);
+  gap: .75rem;
+  flex-direction: row;
+
+  & .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--aside-width);
+    height: inherit;
+  }
+}
+
+:root:has(aside) main {
+  --asidew: var(--aside-width);
+}
+
+:root:has(aside.right) main {
+  right: var(--asidew);
+  left: 0;
+}

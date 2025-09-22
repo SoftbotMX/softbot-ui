@@ -1,0 +1,223 @@
+/* =========================
+   Table (card + tabla)
+   ========================= */
+
+.table-wrap {
+    --_bg: var(--color-base-100);
+    --_fg: var(--color-base-content);
+    --_bc: color-mix(in oklch, var(--_fg) 10%, var(--_bg));
+
+    --row-h: calc(var(--size-field, .25rem) * 12);
+    --cell-px: 1rem;
+    --cell-py: .75rem;
+
+    position: relative;
+    border: var(--border) solid var(--_bc);
+    border-radius: var(--radius-box);
+    background: var(--_bg);
+    color: var(--_fg);
+    overflow: hidden;
+
+    transition:
+            background-color var(--anim-theme) ease,
+            color var(--anim-theme) ease,
+            border-color var(--anim-theme) ease,
+            box-shadow var(--anim-theme) ease;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
+    font-size: 0.975rem;
+}
+
+/* Head */
+.table thead th {
+    text-align: left;
+    padding: .75rem var(--cell-px);
+    color: color-mix(in oklch, var(--_fg) 55%, var(--_bg));
+    font-weight: 700;
+    background: color-mix(in oklch, var(--_fg) 3%, var(--_bg));
+    border-bottom: var(--border) solid var(--_bc);
+    white-space: nowrap;
+}
+
+/* Celdas */
+.table td {
+    height: var(--row-h);
+    padding: var(--cell-py) var(--cell-px);
+    border-bottom: var(--border) solid color-mix(in oklch, var(--_fg) 7%, var(--_bg));
+    vertical-align: middle;
+}
+
+/* Primera y última celda: bordes redondeados visuales al hover/active */
+.table tbody tr td:first-child { padding-left: calc(var(--cell-px) - .25rem); }
+.table tbody tr td:last-child  { padding-right: calc(var(--cell-px) - .25rem); }
+
+/* Hover de fila */
+.table tbody tr:hover {
+    background: color-mix(in oklch, var(--_fg) 4%, var(--_bg));
+}
+
+/* Fila seleccionada */
+.table tbody tr.is-selected {
+    background: color-mix(in oklch, var(--color-primary) 6%, var(--_bg));
+}
+
+/* Celda de selección (checkbox) */
+.table .cell-select {
+    width: 52px;
+    text-align: center;
+    position: relative;
+}
+.table .cell-select input[type="checkbox"] {
+    inline-size: 1.05rem;
+    block-size: 1.05rem;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+.table tbody tr.is-selected .cell-select {
+    background: color-mix(in oklch, var(--_fg) 8%, var(--_bg));
+    border-radius: var(--radius-field);
+}
+
+/* Monto y acciones alineados a la derecha */
+.table .num { text-align: right; white-space: nowrap; }
+.table .actions { text-align: right; white-space: nowrap; }
+
+/* Link de orden/ID */
+.table .link {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+.table .link:hover { text-decoration: underline; }
+
+/* Badges de estado (soft) */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    height: 1.6rem;
+    padding: 0 .6rem;
+    border-radius: 999rem;
+    font-weight: 700;
+    font-size: .8rem;
+    border: var(--border) solid transparent;
+}
+
+.badge--pending {
+    color: var(--color-warning);
+    background: color-mix(in oklch, var(--color-warning) 15%, white);
+    border-color: color-mix(in oklch, var(--color-warning) 35%, transparent);
+}
+.badge--completed {
+    color: var(--color-success);
+    background: color-mix(in oklch, var(--color-success) 15%, white);
+    border-color: color-mix(in oklch, var(--color-success) 35%, transparent);
+}
+.badge--refunded {
+    color: var(--color-error);
+    background: color-mix(in oklch, var(--color-error) 15%, white);
+    border-color: color-mix(in oklch, var(--color-error) 35%, transparent);
+}
+
+/* Botones/iconos en acciones (reusan tu <Button>) */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: var(--radius-field);
+    border: var(--border) solid color-mix(in oklch, var(--_fg) 12%, var(--_bg));
+    background: var(--_bg);
+    color: var(--_fg);
+    cursor: pointer;
+    transition: background-color var(--anim-theme), box-shadow var(--anim-theme);
+}
+.icon-btn:hover {
+    background: color-mix(in oklch, var(--_fg) 6%, var(--_bg));
+}
+
+/* Footer / paginación */
+.table-footer {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 1rem;
+}
+.table-footer .muted { margin-right: auto; }
+
+.pagination {
+    display: inline-flex;
+    gap: .35rem;
+}
+.page-btn {
+    min-inline-size: 2rem;
+    height: 2rem;
+    padding: 0 .6rem;
+    border-radius: 999rem;
+    border: var(--border) solid color-mix(in oklch, var(--_fg) 12%, var(--_bg));
+    background: var(--_bg);
+    color: var(--_fg);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color var(--anim-theme), box-shadow var(--anim-theme);
+}
+.page-btn:hover {
+    background: color-mix(in oklch, var(--_fg) 6%, var(--_bg));
+}
+.page-btn.is-current {
+    background: var(--color-primary);
+    color: var(--color-primary-content);
+    border-color: var(--color-primary);
+}
+
+/* Barra flotante para selección múltiple */
+.bulkbar {
+    position: absolute;
+    left: 50%;
+    bottom: .75rem;
+    transform: translate(-50%, 12px);
+    opacity: 0;
+    pointer-events: none;
+
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem .5rem;
+    border-radius: 999rem;
+    background: var(--_bg);
+    border: var(--border) solid var(--_bc);
+    box-shadow:
+            0 3px 12px color-mix(in oklch, var(--_fg) 10%, transparent),
+            0 1px 0 color-mix(in oklch, var(--_fg) 12%, transparent);
+
+    transition: transform var(--anim-theme), opacity var(--anim-theme);
+}
+.table-wrap.has-selection .bulkbar {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bulkbar .count {
+    font-weight: 800;
+    padding: .4rem .75rem;
+    border-radius: 999rem;
+    border: var(--border) solid color-mix(in oklch, var(--_fg) 12%, var(--_bg));
+    background: color-mix(in oklch, var(--_fg) 4%, var(--_bg));
+}
+
+/* Densidades */
+.table--compact { --row-h: calc(var(--size-field, .25rem) * 10); --cell-py: .55rem; }
+.table--spacious { --row-h: calc(var(--size-field, .25rem) * 14); --cell-py: .95rem; }
+
+/* Responsive (oculta algunas columnas en pantallas estrechas) */
+@media (max-width: 720px) {
+    .col-date, .col-payment, .actions { display: none; }
+}

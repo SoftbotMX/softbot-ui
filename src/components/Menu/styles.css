@@ -1,0 +1,189 @@
+aside {
+  --bg: var(--color-base-100);
+  --navh: 0;
+  --asidew: var(--aside-width);
+  --rotate-anim: 0deg;
+
+  position: fixed;
+  top: var(--navh);
+  width: var(--asidew);
+  height: calc(100% - var(--navh));
+  overflow: hidden scroll;
+  background: var(--bg);
+  scrollbar-color: color-mix(in oklch, currentColor 25%, #0000) #0000;
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+
+  & > .menu {
+    --bg: var(--color-base-100);
+    --fg: var(--color-base-content);
+    --bc: color-mix(in oklch, var(--fg) 10%, var(--bg));
+    --menu-font: 1rem;
+    --menu-item-h: calc(var(--size-field, 0.25rem) * 12);
+    --menu-item-px: 1rem;
+    --menu-item-py: 0.625rem;
+    --menu-gap: 0.5rem;
+    --menu-active-bg: var(--color-neutral);
+    --menu-active-fg: var(--color-neutral-content);
+    --menu-active-shadow:
+        0 1px 0 color-mix(in oklch, var(--fg) 8%, transparent),
+        0 6px 18px color-mix(in oklch, var(--fg) 6%, transparent);
+
+    display: block;
+    margin: 0;
+    padding: 2rem 1rem;
+    color: var(--fg);
+    transition:
+        background-color var(--anim-theme) ease,
+        color var(--anim-theme) ease,
+        border-color var(--anim-theme) ease,
+        box-shadow var(--anim-theme) ease;
+
+    & > .title {
+      display: block;
+      margin-bottom: 0.125rem;
+      padding: 0.25rem var(--menu-item-px) 0.5rem 0;
+      color: color-mix(in oklch, var(--fg) 55%, var(--bg));
+      font-size: var(--font-size);
+      font-weight: 600;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      min-height: var(--menu-item-h);
+      padding: var(--menu-item-py) var(--menu-item-px);
+      border: 0;
+      border-radius: calc(var(--radius-field) + 0.5rem);
+      background: transparent;
+      color: inherit;
+      font-size: var(--menu-font);
+      text-align: left;
+      text-decoration: none;
+      gap: 0.75rem;
+      transition:
+          background-color var(--anim-theme) ease,
+          color var(--anim-theme) ease,
+          box-shadow var(--anim-theme) ease;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover:not(.active) {
+        background: color-mix(in oklch, var(--fg) 6%, var(--bg));
+      }
+
+      & .icon {
+        color: color-mix(in oklch, var(--fg) 45%, var(--bg));
+        block-size: 1.2em;
+        inline-size: 1.2em;
+      }
+
+      & .trailing {
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto;
+        font-size: 16px;
+        gap: 0.5rem;
+        transition: transform var(--anim-theme) ease;
+        font-family: Icons-Font, sans-serif;
+
+        &::before {
+          transform: rotate(var(--rotate-anim));
+          content: "chevron_right";
+        }
+      }
+
+      & .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 1.25rem;
+        margin-left: auto;
+        padding: 0 0.5rem;
+        border: var(--border) solid var(--color-base-300);
+        border-radius: 999rem;
+        background: var(--color-base-100);
+        color: var(--fg);
+        font-size: 0.75rem;
+        font-weight: 700;
+        gap: 0.5rem;
+        min-inline-size: 2.25rem;
+      }
+
+      &.focus {
+        outline: none;
+        box-shadow: 0 0 0 3px color-mix(in oklch, var(--fg) 15%, transparent);
+      }
+
+      &.active {
+        background: var(--menu-active-bg);
+        color: var(--menu-active-fg);
+        box-shadow: var(--menu-active-shadow);
+      }
+    }
+
+    & .submenu {
+      display: none;
+      margin-left: 1.5rem;
+      padding-left: 0.75rem;
+      border-left: 1px solid var(--color-base-300);
+    }
+
+    .dropdown {
+      &.open {
+        --rotate-anim: 90deg;
+      }
+
+      &.open > .submenu {
+        display: block;
+      }
+    }
+
+    &.sm {
+      --menu-font: 0.875rem;
+      --menu-item-h: calc(var(--size-field, 0.25rem) * 8);
+      --menu-item-px: 0.75rem;
+      --menu-item-py: 0.4rem;
+    }
+
+    &.xs {
+      --menu-font: 0.75rem;
+      --menu-item-h: calc(var(--size-field, 0.25rem) * 6);
+      --menu-item-px: 0.5rem;
+      --menu-item-py: 0.25rem;
+    }
+
+    &.lg {
+      --menu-font: 1.05rem;
+      --menu-item-h: calc(var(--size-field, 0.25rem) * 14);
+      --menu-item-px: 1.25rem;
+      --menu-item-py: 0.8rem;
+    }
+
+    &.xl {
+      --menu-font: 1.125rem;
+      --menu-item-h: calc(var(--size-field, 0.25rem) * 16);
+      --menu-item-px: 1.5rem;
+      --menu-item-py: 1rem;
+    }
+  }
+
+  & .disabled > *,
+  & [aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+:root:has(nav) aside,
+:root:has(nav) main {
+  --navh: var(--nav-height);
+}

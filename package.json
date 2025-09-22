@@ -1,0 +1,71 @@
+{
+  "name": "softbot-ui",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.35.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "autoprefixer": "^10.4.21",
+    "clsx": "2.1.1",
+    "cssnano": "^7.1.1",
+    "esbuild": "0.25.9",
+    "eslint": "9.35.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-import-resolver-typescript": "4.4.4",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "fs-extra": "^11.3.1",
+    "postcss": "^8.5.6",
+    "postcss-cli": "11.0.1",
+    "postcss-html": "1.8.0",
+    "postcss-import": "^16.1.1",
+    "postcss-nesting": "^13.0.2",
+    "prettier": "3.6.2",
+    "stylelint": "16.24.0",
+    "stylelint-config-standard": "39.0.0",
+    "stylelint-order": "7.0.0",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.43.0"
+  },
+  "scripts": {
+    "build:css": "NODE_ENV=production postcss src/main.css -o dist/styles.css",
+    "build": "rm -rf dist && node esbuild.mjs && tsc -p tsconfig.json && yarn build:css",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:css": "stylelint \"**/*.{css,html}\"",
+    "lint:css:fix": "stylelint \"**/*.{css,html}\" --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "typecheck": "yarn -r --filter ./packages/* tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "yarn@3.8.7"
+}
