@@ -1,6 +1,6 @@
 import React from "react";
 
-import "components/Modal/styles.css";
+import "./styles.css";
 import Button from "../Button";
 
 interface ModalProps {
