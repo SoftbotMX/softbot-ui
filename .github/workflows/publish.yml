@@ -20,13 +20,22 @@ jobs:
           node-version: 20
           registry-url: 'https://npm.pkg.github.com'
           scope: '@softbot'
-      - run: npm ci
-      - run: npm run build
+      - name: Enable Corepack (Yarn)
+        run: corepack enable
+
+      - name: Install deps (Yarn)
+        run: yarn install --immutable
+
+      - name: Build
+        run: yarn build
+
       - name: Ensure version matches tag
         run: |
           TAG="${GITHUB_REF_NAME#v}"
           PKG_VERSION=$(node -p "require('./package.json').version")
           [ "$TAG" = "$PKG_VERSION" ] || (echo "Tag($TAG) != version($PKG_VERSION)"; exit 1)
-      - run: npm publish
+
+      - name: Publish to GitHub Packages
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
