@@ -1228,6 +1228,7 @@ __metadata:
     "@vitest/browser": 3.2.4
     "@vitest/coverage-v8": 3.2.4
     autoprefixer: 10.4.21
+    clsx: 2.1.1
     cssnano: 7.1.1
     eslint: 9.37.0
     eslint-config-prettier: 10.1.8
@@ -1262,7 +1263,6 @@ __metadata:
   peerDependencies:
     react: ">=19.0.0"
     react-dom: ">=19.0.0"
-    tailwindcss: ">=4.1.14"
   languageName: unknown
   linkType: soft
 
@@ -3057,6 +3057,13 @@ __metadata:
     strip-ansi: ^6.0.1
     wrap-ansi: ^7.0.0
   checksum: 79648b3b0045f2e285b76fb2e24e207c6db44323581e421c3acbd0e86454cba1b37aea976ab50195a49e7384b871e6dfb2247ad7dec53c02454ac6497394cb56
+  languageName: node
+  linkType: hard
+
+"clsx@npm:2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: acd3e1ab9d8a433ecb3cc2f6a05ab95fe50b4a3cfc5ba47abb6cbf3754585fcb87b84e90c822a1f256c4198e3b41c7f6c391577ffc8678ad587fc0976b24fd57
   languageName: node
   linkType: hard
 

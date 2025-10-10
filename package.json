@@ -36,11 +36,10 @@
   },
   "peerDependencies": {
     "react": ">=19.0.0",
-    "react-dom": ">=19.0.0",
-    "tailwindcss": ">=4.1.14"
+    "react-dom": ">=19.0.0"
   },
   "dependencies": {
-    "tailwind-merge": "3.3.1"
+    "clsx": "2.1.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "4.1.1",
@@ -83,6 +82,7 @@
     "stylelint-config-standard": "39.0.1",
     "stylelint-order": "7.0.0",
     "stylelint-prettier": "5.0.3",
+    "tailwind-merge": "3.3.1",
     "tailwindcss": "4.1.14",
     "typescript": "5.9.3",
     "typescript-eslint": "8.45.0",
