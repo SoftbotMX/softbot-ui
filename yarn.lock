@@ -1219,7 +1219,7 @@ __metadata:
     "@storybook/addon-onboarding": 9.1.10
     "@storybook/addon-vitest": 9.1.10
     "@storybook/react-vite": 9.1.10
-    "@tailwindcss/postcss": ^4.1.14
+    "@tailwindcss/postcss": 4.1.14
     "@tailwindcss/vite": 4.1.14
     "@types/node": 24.7.0
     "@types/react": 19.2.0
@@ -1240,11 +1240,13 @@ __metadata:
     eslint-plugin-storybook: 9.1.10
     globals: 16.4.0
     postcss: 8.5.6
-    postcss-cli: ^11.0.1
-    postcss-html: ^1.8.0
+    postcss-cli: 11.0.1
+    postcss-html: 1.8.0
     postcss-import: 16.1.1
     postcss-nesting: 13.0.2
     prettier: 3.6.2
+    react: 19.2.0
+    react-dom: 19.2.0
     storybook: 9.1.10
     stylelint: 16.25.0
     stylelint-config-standard: 39.0.1
@@ -1258,8 +1260,8 @@ __metadata:
     vite-plugin-dts: 4.5.4
     vitest: 3.2.4
   peerDependencies:
-    react: ">=18.3.0"
-    react-dom: ">=18.3.0"
+    react: ">=19.0.0"
+    react-dom: ">=19.0.0"
     tailwindcss: ">=4.1.14"
   languageName: unknown
   linkType: soft
@@ -1571,7 +1573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tailwindcss/postcss@npm:^4.1.14":
+"@tailwindcss/postcss@npm:4.1.14":
   version: 4.1.14
   resolution: "@tailwindcss/postcss@npm:4.1.14"
   dependencies:
@@ -6350,7 +6352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-cli@npm:^11.0.1":
+"postcss-cli@npm:11.0.1":
   version: 11.0.1
   resolution: "postcss-cli@npm:11.0.1"
   dependencies:
@@ -6437,7 +6439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-html@npm:^1.8.0":
+"postcss-html@npm:1.8.0":
   version: 1.8.0
   resolution: "postcss-html@npm:1.8.0"
   dependencies:
@@ -6939,7 +6941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
+"react-dom@npm:19.2.0, react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
   version: 19.2.0
   resolution: "react-dom@npm:19.2.0"
   dependencies:
@@ -6971,7 +6973,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
+"react@npm:19.2.0, react@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
   version: 19.2.0
   resolution: "react@npm:19.2.0"
   checksum: 33dd01bf699e1c5040eb249e0f552519adf7ee90b98c49d702a50bf23af6852ea46023a5f7f93966ab10acd7a45428fa0f193c686ecdaa7a75a03886e53ec3fe
