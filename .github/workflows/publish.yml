@@ -4,7 +4,9 @@ on:
   push:
     tags:
       - "v*"
-
+  workflow_dispatch: {}
+  release:
+      types: [published]
 jobs:
   publish:
     runs-on: [self-hosted, office]
