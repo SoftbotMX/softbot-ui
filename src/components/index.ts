@@ -39,6 +39,7 @@ export { default as Swap } from "./Swap";
 export { default as Tab } from "./Tab";
 export { default as Table } from "./Table";
 export { default as Textarea } from "./Textarea";
+export { ThemeContext, ThemeProvider } from "./Theme";
 export { default as Timeline } from "./Timeline";
 export { default as Toast } from "./Toast";
 export { default as Toggle } from "./Toggle";
