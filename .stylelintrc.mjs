@@ -1,10 +1,11 @@
 /** @type {import('stylelint').Config} */
 
 export default {
-  extends: ["stylelint-config-standard"],
-  plugins: ["stylelint-order"],
+  extends: ["stylelint-config-standard", "stylelint-prettier/recommended"],
+  plugins: ["stylelint-order", "stylelint-prettier"],
   overrides: [{ files: ["**/*.html"], customSyntax: "postcss-html" }],
   rules: {
+    "prettier/prettier": true,
     "function-no-unknown": [true, { ignoreFunctions: ["oklch", "color-mix"] }],
     "color-function-notation": "modern",
     "order/properties-order": [
@@ -77,5 +78,21 @@ export default {
       { unspecified: "bottomAlphabetical" },
     ],
     "selector-class-pattern": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        ignoreAtRules: [
+          "tailwind",
+          "layer",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+          "config",
+          "theme",
+          "utility",
+        ],
+      },
+    ],
   },
 };

@@ -1,0 +1,36 @@
+.radial-progress {
+  @apply relative inline-grid h-[var(--size)] w-[var(--size)] place-content-center rounded-full bg-transparent;
+
+  box-sizing: content-box;
+  transition: --radialprogress 0.3s linear;
+  vertical-align: middle;
+
+  --value: 0;
+  --size: 5rem;
+  --thickness: calc(var(--size) / 10);
+  --radialprogress: calc(var(--value) * 1%);
+
+  &::before {
+    @apply absolute inset-0 rounded-full;
+
+    background:
+      radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness)
+        no-repeat,
+      conic-gradient(currentColor var(--radialprogress), #0000 0);
+    content: "";
+    mask: radial-gradient(
+      farthest-side,
+      #0000 calc(100% - var(--thickness)),
+      #000 calc(100% + 0.5px - var(--thickness))
+    );
+  }
+
+  &::after {
+    @apply absolute rounded-full bg-current;
+
+    inset: calc(50% - var(--thickness) / 2);
+    transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
+    transition: transform 0.3s linear;
+    content: "";
+  }
+}

@@ -1,131 +1,144 @@
 import clsx from "clsx";
-import type { ButtonHTMLAttributes } from "react";
-import React from "react";
+import * as React from "react";
 
-export type TableProps = ButtonHTMLAttributes<HTMLDivElement>;
+type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
-const Table = (props: TableProps) => {
-  const { children, className, ...rest } = props;
+export interface Column<T = any> {
+  key: string;
+  header?: React.ReactNode;
+  cell?: (row: T, rowIndex: number) => React.ReactNode;
+  footer?: React.ReactNode;
+  className?: string;
+  align?: "left" | "center" | "right";
+  width?: number | string;
+}
+
+export interface TableProps<T = any>
+  extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
+  columns: Column<T>[];
+  data: T[];
+  caption?: React.ReactNode;
+  zebra?: boolean;
+  rowHover?: boolean;
+  pinRows?: "header" | "footer" | "both";
+  pinCols?: boolean;
+  size?: Size;
+  rowClassName?: (row: T, index: number) => string | undefined;
+  onRowClick?: (row: T, index: number) => void;
+  valueGetter?: (row: T, key: string) => React.ReactNode;
+}
+
+function getByPath(obj: any, path: string): any {
+  if (!path) return undefined;
+  return path.split(".").reduce((acc, k) => (acc == null ? acc : acc[k]), obj);
+}
+
+const Table = <T,>(props: TableProps<T>) => {
+  const {
+    columns,
+    data,
+    caption,
+    zebra,
+    rowHover = true,
+    pinRows,
+    pinCols,
+    size = "md",
+    className,
+    rowClassName,
+    onRowClick,
+    valueGetter = (row, key) => getByPath(row, key),
+    ...rest
+  } = props;
+
+  const tableCls = clsx(
+    "table",
+    zebra && "table-zebra",
+    size && `table-${size}`,
+    pinCols && "table-pin-cols",
+    className,
+  );
+
+  const theadCls = clsx(pinRows === "header" || pinRows === "both" ? "table-pin-rows" : null);
+  const tfootCls = clsx(pinRows === "footer" || pinRows === "both" ? "table-pin-rows" : null);
+
   return (
-    <div className={clsx("table-wrap has-selection", className)} {...rest}>
-      <table className="table table--default">
-        <thead>
+    <div className="overflow-x-auto">
+      <table className={tableCls} {...rest}>
+        {caption ? <caption className="text-left mb-2">{caption}</caption> : null}
+
+        <thead className={theadCls}>
           <tr>
-            <th style={{ width: "52px" }}></th>
-            <th>Order Number</th>
-            <th>Customer Name</th>
-            <th className="col-date">Order Date</th>
-            <th>Status</th>
-            <th className="num">Total Amount</th>
-            <th className="col-payment">Payment Status</th>
-            <th className="actions">Action</th>
+            {columns.map((col) => (
+              <th
+                key={col.key}
+                className={clsx(
+                  col.className,
+                  col.align === "center" && "text-center",
+                  col.align === "right" && "text-right",
+                )}
+                style={col.width != null ? { width: col.width } : undefined}
+                scope="col"
+              >
+                {col.header ?? col.key}
+              </th>
+            ))}
           </tr>
         </thead>
+
         <tbody>
-          <tr>
-            <td className="cell-select">
-              <input type="checkbox" />
-            </td>
-            <td>
-              <a className="link" href="#">
-                #ORD1008
-              </a>
-            </td>
-            <td>
-              <div className="hstack">
-                <img
-                  alt=""
-                  src="https://via.placeholder.com/24"
-                  style={{ borderRadius: "999rem" }}
-                />{" "}
-                Esther Kahn
-              </div>
-            </td>
-            <td className="col-date">17 Dec 2024</td>
-            <td>
-              <span className="badge badge--pending">Pending</span>
-            </td>
-            <td className="num">$10.50</td>
-            <td className="col-payment">Unpaid</td>
-            <td className="actions">
-              <button className="icon-btn" title="Edit">
-                ✎
-              </button>
-              <button className="icon-btn" title="More">
-                ⋯
-              </button>
-            </td>
-          </tr>
-
-          <tr className="is-selected">
-            <td className="cell-select">
-              <input type="checkbox" checked />
-            </td>
-            <td>
-              <a className="link" href="#">
-                #ORD1006
-              </a>
-            </td>
-            <td>Clint Hoppe</td>
-            <td className="col-date">16 Dec 2024</td>
-            <td>
-              <span className="badge badge--completed">Completed</span>
-            </td>
-            <td className="num">$60.56</td>
-            <td className="col-payment">Paid</td>
-            <td className="actions">
-              <button className="icon-btn">✎</button>
-              <button className="icon-btn">🗑</button>
-              <button className="icon-btn">⋯</button>
-            </td>
-          </tr>
-
-          <tr className="is-selected">
-            <td className="cell-select">
-              <input type="checkbox" checked />
-            </td>
-            <td>
-              <a className="link" href="#">
-                #ORD1003
-              </a>
-            </td>
-            <td>Clint Hoppe</td>
-            <td className="col-date">16 Dec 2024</td>
-            <td>
-              <span className="badge badge--completed">Completed</span>
-            </td>
-            <td className="num">$29.50</td>
-            <td className="col-payment">Paid</td>
-            <td className="actions">
-              <button className="icon-btn">✎</button>
-              <button className="icon-btn">🗑</button>
-              <button className="icon-btn">⋯</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td className="cell-select">
-              <input type="checkbox" />
-            </td>
-            <td>
-              <a className="link" href="#">
-                #ORD1001
-              </a>
-            </td>
-            <td>Gretchen Quitz</td>
-            <td className="col-date">14 Dec 2024</td>
-            <td>
-              <span className="badge badge--refunded">Refunded</span>
-            </td>
-            <td className="num">$123.50</td>
-            <td className="col-payment">Paid</td>
-            <td className="actions">
-              <button className="icon-btn">✎</button>
-              <button className="icon-btn">🗑</button>
-              <button className="icon-btn">⋯</button>
-            </td>
-          </tr>
+          {data.map((row, i) => {
+            const rowCls = clsx(
+              rowHover && "row-hover",
+              typeof rowClassName === "function" ? rowClassName(row, i) : undefined,
+              onRowClick && "cursor-pointer",
+            );
+            return (
+              <tr
+                key={i}
+                className={rowCls}
+                onClick={onRowClick ? () => onRowClick(row, i) : undefined}
+              >
+                {columns.map((col) => {
+                  const content = col.cell
+                    ? col.cell(row, i)
+                    : (valueGetter(row, col.key) as React.ReactNode);
+                  return (
+                    <td
+                      key={col.key}
+                      className={clsx(
+                        col.className,
+                        col.align === "center" && "text-center",
+                        col.align === "right" && "text-right",
+                      )}
+                      style={col.width != null ? { width: col.width } : undefined}
+                    >
+                      {content}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
+
+        {columns.some((c) => c.footer !== undefined) && (
+          <tfoot className={tfootCls}>
+            <tr>
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className={clsx(
+                    col.className,
+                    col.align === "center" && "text-center",
+                    col.align === "right" && "text-right",
+                  )}
+                >
+                  {col.footer ?? null}
+                </th>
+              ))}
+            </tr>
+          </tfoot>
+        )}
       </table>
     </div>
   );

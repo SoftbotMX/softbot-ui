@@ -1,28 +1,55 @@
+import clsx from "clsx";
 import * as React from "react";
-import type { HTMLProps } from "react";
 
-export interface PropsInput extends HTMLProps<HTMLInputElement> {
-  label?: string;
-  legend?: string;
-  validity?: boolean;
-  error?: boolean;
-  icon?: string;
+type Tone =
+  | "neutral"
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "info"
+  | "success"
+  | "warning"
+  | "error";
+
+type Size = "xs" | "sm" | "md" | "lg" | "xl";
+
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLElement>, "size" | "color"> {
+  tone?: Tone;
+  size?: Size;
+  ghost?: boolean;
+  left?: string;
+  right?: string;
+  as?: "div" | "label";
+  containerClassName?: string;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
-const Input = (props: PropsInput) => {
-  const { label, placeholder, legend, type } = props;
-  return label ? (
-    <fieldset className="fieldset">
-      <legend className="fieldset-legend">{label}</legend>
-      <input type={type} className="input" placeholder={placeholder} />
-      {legend && <p className="label">{legend}</p>}
-    </fieldset>
-  ) : (
-    <label className="input">
-      Path
-      <input type="text" className="grow" placeholder="src/app/" />
-      <span className="badge badge-neutral badge-xs">Optional</span>
-    </label>
+const Input = (props: InputProps) => {
+  const {
+    tone,
+    size = "md",
+    ghost,
+    left,
+    right,
+    as = "div",
+    containerClassName,
+    className,
+    type = "text",
+    ref,
+    ...rest
+  } = props;
+
+  const As = as;
+  const toneCls = tone ? `input-${tone}` : undefined;
+  const sizeCls = size ? `input-${size}` : undefined;
+  const ghostCls = ghost ? "input-ghost" : undefined;
+
+  return (
+    <As className={clsx("input", toneCls, sizeCls, ghostCls, containerClassName)}>
+      {left ? <span className={`icon-symbols opacity-50 text-sm ${toneCls}`}>{left}</span> : null}
+      <input ref={ref} type={type} className={clsx("grow", className)} {...rest} />
+      {right ? <span className={`icon-symbols opacity-50 text-sm ${toneCls}`}>{right}</span> : null}
+    </As>
   );
 };
 

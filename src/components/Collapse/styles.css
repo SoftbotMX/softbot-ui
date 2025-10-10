@@ -1,0 +1,268 @@
+.collapse:not(td, tr, colgroup) {
+  visibility: visible;
+}
+
+.collapse {
+  display: grid;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-box, 1rem);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: max-content 0fr;
+  isolation: isolate;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: grid-template-rows 0.2s;
+  }
+
+  > input:is([type="checkbox"], [type="radio"]) {
+    opacity: 0;
+    appearance: none;
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+
+  &:is([open], [tabindex]:focus:not(.collapse-close), [tabindex]:focus-within:not(.collapse-close)),
+  &:not(.collapse-close):has(> input:is([type="checkbox"], [type="radio"]):checked) {
+    grid-template-rows: max-content 1fr;
+  }
+
+  &:is([open], [tabindex]:focus:not(.collapse-close), [tabindex]:focus-within:not(.collapse-close))
+    > .collapse-content,
+  &:not(.collapse-close)
+    > :where(input:is([type="checkbox"], [type="radio"]):checked ~ .collapse-content) {
+    min-height: fit-content;
+    visibility: visible;
+  }
+
+  &:focus-visible,
+  &:has(> input:is([type="checkbox"], [type="radio"]):focus-visible),
+  &:has(summary:focus-visible) {
+    outline: var(--color-base-content) solid 2px;
+    outline-offset: 2px;
+  }
+
+  &:not(.collapse-close) {
+    > input[type="checkbox"],
+    > input[type="radio"]:not(:checked),
+    > .collapse-title {
+      cursor: pointer;
+    }
+  }
+
+  &[tabindex]:focus:not(.collapse-close, .collapse[open]),
+  &[tabindex]:focus-within:not(.collapse-close, .collapse[open]) {
+    > .collapse-title {
+      cursor: unset;
+    }
+  }
+
+  &:is([open], [tabindex]:focus:not(.collapse-close), [tabindex]:focus-within:not(.collapse-close))
+    > :where(.collapse-content),
+  &:not(.collapse-close)
+    > :where(input:is([type="checkbox"], [type="radio"]):checked ~ .collapse-content) {
+    padding-bottom: 1rem;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        padding 0.2s ease-out,
+        background-color 0.2s ease-out;
+    }
+  }
+
+  &:is([open]) {
+    &.collapse-arrow {
+      > .collapse-title::after {
+        @media (prefers-reduced-motion: no-preference) {
+          transform: translateY(-50%) rotate(225deg);
+        }
+      }
+    }
+  }
+
+  &.collapse-open {
+    &.collapse-arrow {
+      > .collapse-title::after {
+        @media (prefers-reduced-motion: no-preference) {
+          transform: translateY(-50%) rotate(225deg);
+        }
+      }
+    }
+  }
+
+  &[tabindex].collapse-arrow:focus:not(.collapse-close),
+  &.collapse-arrow[tabindex]:focus-within:not(.collapse-close) {
+    > .collapse-title::after {
+      transform: translateY(-50%) rotate(225deg);
+    }
+  }
+
+  &.collapse-arrow:not(.collapse-close) {
+    > input:is([type="checkbox"], [type="radio"]):checked ~ .collapse-title::after {
+      transform: translateY(-50%) rotate(225deg);
+    }
+  }
+
+  &[open] {
+    &.collapse-plus {
+      > .collapse-title::after {
+        content: "−";
+      }
+    }
+  }
+
+  &.collapse-open {
+    &.collapse-plus {
+      > .collapse-title::after {
+        content: "−";
+      }
+    }
+  }
+
+  &[tabindex].collapse-plus:focus:not(.collapse-close) {
+    > .collapse-title::after {
+      content: "−";
+    }
+  }
+
+  &.collapse-plus:not(.collapse-close) {
+    > input:is([type="checkbox"], [type="radio"]):checked ~ .collapse-title::after {
+      content: "−";
+    }
+  }
+
+  > input:is([type="checkbox"], [type="radio"]) {
+    z-index: 1;
+    width: 100%;
+    min-height: 1lh;
+    padding: 1rem;
+    transition: background-color 0.2s ease-out;
+    padding-inline-end: 3rem;
+  }
+}
+
+.collapse-title,
+.collapse-content {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+.collapse-content {
+  min-height: 0;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  cursor: unset;
+  grid-column-start: 1;
+  grid-row-start: 2;
+  visibility: hidden;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      visibility 0.2s,
+      padding 0.2s ease-out,
+      background-color 0.2s ease-out;
+  }
+}
+
+.collapse:is(details) {
+  width: 100%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (transition: content-visibility allow-discrete) and (interpolate-size: allow-keywords) {
+      &::details-content {
+        height: 0;
+        transition:
+          content-visibility 0.2s allow-discrete,
+          height 0.2s;
+        interpolate-size: allow-keywords;
+      }
+
+      &:where([open], .collapse-open)::details-content {
+        height: auto;
+      }
+    }
+  }
+
+  & summary {
+    display: block;
+    position: relative;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+.collapse:is(details) summary {
+  outline: none;
+}
+
+.collapse-arrow {
+  > .collapse-title::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    box-shadow: 2px 2px;
+    transform: translateY(-100%) rotate(45deg);
+    content: "";
+    inset-inline-end: 1.4rem;
+    pointer-events: none;
+    transform-origin: 75% 75%;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-duration: 0.2s;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+.collapse-plus {
+  > .collapse-title::after {
+    display: block;
+    position: absolute;
+    top: 0.9rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    content: "+";
+    inset-inline-end: 1.4rem;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-duration: 300ms;
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+.collapse-title {
+  position: relative;
+}
+
+.collapse-title {
+  width: 100%;
+  min-height: 1lh;
+  padding: 1rem;
+  transition: background-color 0.2s ease-out;
+  padding-inline-end: 3rem;
+}
+
+.collapse-open {
+  grid-template-rows: max-content 1fr;
+
+  > .collapse-content {
+    min-height: fit-content;
+    padding-bottom: 1rem;
+    visibility: visible;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        padding 0.2s ease-out,
+        background-color 0.2s ease-out;
+    }
+  }
+}

@@ -1,30 +1,68 @@
-@layer base, utilities, components, overrides;
+@import url("tailwindcss");
+@import url("./components/Theme/styles.css");
+@import url("./themes/light.css");
+@import url("./themes/dark.css");
+@import url("./utils.css");
+@import url("./base.css");
+@import url("./components/Alert/styles.css");
+@import url("./components/Avatar/styles.css");
+@import url("./components/Badge/styles.css");
+@import url("./components/Breadcrumbs/styles.css");
+@import url("./components/Button/styles.css");
+@import url("./components/Card/styles.css");
+@import url("./components/Checkbox/styles.css");
+@import url("./components/Collapse/styles.css");
+@import url("./components/Countdown/styles.css");
+@import url("./components/Diff/styles.css");
+@import url("./components/Divider/styles.css");
+@import url("./components/Dropdown/styles.css");
+@import url("./components/Fab/styles.css");
+@import url("./components/Fieldset/styles.css");
+@import url("components/FileInput/styles.css");
+@import url("./components/Filter/styles.css");
+@import url("./components/Indicator/styles.css");
+@import url("./components/Input/styles.css");
+@import url("./components/Kbd/styles.css");
+@import url("./components/Label/styles.css");
+@import url("./components/List/styles.css");
+@import url("./components/Loading/styles.css");
+@import url("./components/Mask/styles.css");
+@import url("./components/Menu/styles.css");
+@import url("./components/Modal/styles.css");
+@import url("./components/Navbar/styles.css");
+@import url("./components/Progress/styles.css");
+@import url("./components/RadialProgress/styles.css");
+@import url("./components/Radio/styles.css");
+@import url("./components/Range/styles.css");
+@import url("./components/Rating/styles.css");
+@import url("./components/Select/styles.css");
+@import url("./components/Skeleton/styles.css");
+@import url("./components/Stack/styles.css");
+@import url("./components/Stat/styles.css");
+@import url("./components/Status/styles.css");
+@import url("./components/Steps/styles.css");
+@import url("./components/Swap/styles.css");
+@import url("./components/Tab/styles.css");
+@import url("./components/Table/styles.css");
+@import url("./components/Textarea/styles.css");
+@import url("./components/Timeline/styles.css");
+@import url("./components/Toast/styles.css");
+@import url("./components/Toggle/styles.css");
+@import url("./components/Tooltip/styles.css");
+@import url("./components/Validator/styles.css");
 
-
-@import url('./base.css') layer(base);
-@import url('./utilities.css') layer(utilities);
-@import url('./components/Button/styles.css') layer(components);
-@import url('./components/Card/styles.css') layer(components);
-@import url('./components/Checkbox/styles.css') layer(components);
-@import url('./components/Input/styles.css') layer(components);
-@import url('./components/Main/styles.css') layer(components);
-@import url('./components/Menu/styles.css') layer(components);
-@import url('./components/NavBar/styles.css') layer(components);
-@import url('./components/Select/styles.css') layer(components);
-@import url('./components/Table/styles.css') layer(components);
-@import url('./themes/light.css') layer(overrides);
-@import url('./themes/dark.css') layer(overrides);
+@layer utilities, base, components, overrides;
 
 @layer components {
   @font-face {
     font-family: Icons-Font;
     font-style: normal;
     font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
-    src: url("./assets/fonts/icons.woff2") format('woff2')
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
+    src: url("./assets/fonts/icons.woff2") format("woff2");
   }
 
   .icon-symbols {
@@ -40,71 +78,11 @@
     text-transform: none;
     white-space: nowrap;
   }
-
-  @keyframes skeleton {
-    0% {
-      background-position: 150%
-    }
-
-    100% {
-      background-position: -50%
-    }
-  }
-
-  .skeleton {
-    border-radius: var(--radius-box);
-    background-color: var(--color-base-300);
-    background-image: linear-gradient(105deg,#0000 0% 40%,var(--color-base-100)50%,#0000 60% 100%);
-    background-position-x: -50%;
-    background-repeat: no-repeat;
-    background-size: 200%;
-    will-change: background-position;
-
-    @media (prefers-reduced-motion:reduce) {
-      transition-duration: 15s;
-    }
-
-    @media (prefers-reduced-motion:no-preference) {
-      animation: 1.8s ease-in-out infinite skeleton;
-    }
-  }
 }
 
 @layer tokens {
-    :root {
-        --color-base-100: oklch(100% 0 0deg);
-        --color-base-200: oklch(98% 0 0deg);
-        --color-base-300: oklch(95% 0 0deg);
-        --color-base-content: oklch(21% .006 285.885deg);
-        --color-primary: oklch(45% .24 277.023deg);
-        --color-primary-content: oklch(93% .034 272.788deg);
-        --color-secondary: oklch(65% .241 354.308deg);
-        --color-secondary-content: oklch(94% .028 342.258deg);
-        --color-accent: oklch(77% .152 181.912deg);
-        --color-accent-content: oklch(38% .063 188.416deg);
-        --color-neutral: oklch(14% .005 285.823deg);
-        --color-neutral-content: oklch(92% .004 286.32deg);
-        --color-info: oklch(74% .16 232.661deg);
-        --color-info-content: oklch(29% .066 243.157deg);
-        --color-success: oklch(76% .177 163.223deg);
-        --color-success-content: oklch(37% .077 168.94deg);
-        --color-warning: oklch(82% .189 84.429deg);
-        --color-warning-content: oklch(41% .112 45.904deg);
-        --color-error: oklch(71% .194 13.428deg);
-        --color-error-content: oklch(27% .105 12.094deg);
-        --nav-height: 80px;
-        --aside-width: 20%;
-        --radius-selector: 0.25rem;
-        --radius-field: 0.25rem;
-        --radius-box: 0.75rem;
-        --size-selector: 0.25rem;
-        --size-field: 0.25rem;
-        --border: 1px;
-        --depth: 0;
-        --noise: 0;
-        --font-size: 14px;
-        --anim-theme: 220ms;
-
-        color-scheme: light dark;
-    }
+  :root {
+    color-scheme: light dark;
+    scrollbar-color: currentColor #0000;
+  }
 }

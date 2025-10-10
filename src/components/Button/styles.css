@@ -1,153 +1,352 @@
-button {
-    --bg: var(--color-base-200);
-    --fg: var(--color-base-content);
-    --br: var(--radius-field);
-    --bc: var(--color-base-300);
+:where(.btn) {
+  width: unset;
+}
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(var(--size-field, .25rem) * 10);
-    padding: 1rem;
-    border: var(--border) solid var(--bc);
-    border-radius: var(--br);
-    background: var(--bg);
-    color: var(--fg);
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    gap: 0.5rem;
-    transition:
-        background-color var(--anim-theme) ease,
-        color var(--anim-theme) ease,
-        border-color var(--anim-theme) ease,
-        box-shadow var(--anim-theme) ease,
-        transform 60ms ease;
-    cursor: pointer;
-    user-select: none;
+.btn {
+  @apply inline-flex shrink-0 cursor-pointer flex-nowrap items-center justify-center gap-1.5 text-center align-middle outline-offset-2 select-none;
 
+  --size: calc(var(--size-field, 0.25rem) * 10);
+  --btn-bg: var(--btn-color, var(--color-base-200));
+  --btn-fg: var(--color-base-content);
+  --btn-p: 1rem;
+  --btn-border: color-mix(in oklab, var(--btn-bg), #000 calc(var(--depth) * 5%));
+  --btn-shadow:
+    0 3px 2px -2px color-mix(in oklab, var(--btn-bg) calc(var(--depth) * 30%), #0000),
+    0 4px 3px -2px color-mix(in oklab, var(--btn-bg) calc(var(--depth) * 30%), #0000);
+  --btn-noise: var(--fx-noise);
+
+  height: var(--size);
+  color: var(--btn-fg);
+  font-size: var(--fontsize, 0.875rem);
+  font-weight: 600;
+  box-shadow:
+    0 0.5px 0 0.5px oklch(100% 0 0deg / calc(var(--depth) * 6%)) inset,
+    var(--btn-shadow);
+  background-color: var(--btn-bg);
+  background-image: none, var(--btn-noise);
+  background-size: auto, calc(var(--noise) * 100%);
+  border-color: var(--btn-border);
+  border-end-end-radius: var(--join-ee, var(--radius-field));
+  border-end-start-radius: var(--join-es, var(--radius-field));
+  border-start-end-radius: var(--join-se, var(--radius-field));
+  border-start-start-radius: var(--join-ss, var(--radius-field));
+  border-style: solid;
+  border-width: var(--border);
+  outline-color: var(--btn-color, var(--color-base-content));
+  padding-inline: var(--btn-p);
+  text-shadow: 0 0.5px oklch(100% 0 0deg / calc(var(--depth) * 0.15));
+  touch-action: manipulation;
+  transition-duration: 0.2s;
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
+  .prose & {
+    @apply no-underline;
+  }
+
+  @media (hover: hover) {
     &:hover {
-        background: color-mix(
-                in oklch,
-                var(--bg),
-                #000 10%
-        );
+      --btn-bg: color-mix(in oklab, var(--btn-color, var(--color-base-200)), #000 7%);
+    }
+  }
+
+  &:where(input:checked:not(.filter .btn)) {
+    --btn-color: var(--color-primary);
+    --btn-fg: var(--color-primary-content);
+
+    isolation: isolate;
+  }
+
+  &:focus-visible,
+  &:has(:focus-visible) {
+    isolation: isolate;
+    outline-style: solid;
+    outline-width: 2px;
+  }
+
+  &:is(:disabled, [disabled], &.disabled) {
+    &:not(&.link, &.ghost) {
+      @apply bg-base-content/10;
+
+      box-shadow: none;
     }
 
-    &:active {
-        transform: translateY(1px);
+    @apply pointer-events-none;
+
+    --btn-border: #0000;
+    --btn-noise: none;
+    --btn-fg: color-mix(in oklch, var(--color-base-content) 20%, #0000);
+
+    @media (hover: hover) {
+      &:hover {
+        @apply bg-neutral/20 pointer-events-none;
+
+        --btn-border: #0000;
+        --btn-fg: color-mix(in oklch, var(--color-base-content) 20%, #0000);
+      }
+    }
+  }
+
+  &:active:not(&.active) {
+    translate: 0 0.5px;
+
+    --btn-bg: color-mix(in oklab, var(--btn-color, var(--color-base-200)), #000 5%);
+    --btn-border: color-mix(in oklab, var(--btn-color, var(--color-base-200)), #000 7%);
+    --btn-shadow: 0 0 0 0 oklch(0% 0 0deg/0%), 0 0 0 0 oklch(0% 0 0deg/0%);
+  }
+
+  &:is(input[type="checkbox"], input[type="radio"]) {
+    @apply appearance-none;
+
+    &::after {
+      content: attr(aria-label);
+    }
+  }
+
+  &.active {
+    --btn-bg: color-mix(in oklab, var(--btn-color, var(--color-base-200)), #000 7%);
+    --btn-shadow: 0 0 0 0 oklch(0% 0 0deg/0%), 0 0 0 0 oklch(0% 0 0deg/0%);
+
+    isolation: isolate;
+  }
+
+  &.primary {
+    --btn-color: var(--color-primary);
+    --btn-fg: var(--color-primary-content);
+  }
+
+  &.secondary {
+    --btn-color: var(--color-secondary);
+    --btn-fg: var(--color-secondary-content);
+  }
+
+  &.accent {
+    --btn-color: var(--color-accent);
+    --btn-fg: var(--color-accent-content);
+  }
+
+  &.neutral {
+    --btn-color: var(--color-neutral);
+    --btn-fg: var(--color-neutral-content);
+  }
+
+  &.info {
+    --btn-color: var(--color-info);
+    --btn-fg: var(--color-info-content);
+  }
+
+  &.success {
+    --btn-color: var(--color-success);
+    --btn-fg: var(--color-success-content);
+  }
+
+  &.warning {
+    --btn-color: var(--color-warning);
+    --btn-fg: var(--color-warning-content);
+  }
+
+  &.error {
+    --btn-color: var(--color-error);
+    --btn-fg: var(--color-error-content);
+  }
+
+  &.ghost {
+    &:not(&.active, :hover, :active:focus, :focus-visible) {
+      --btn-shadow: "";
+      --btn-bg: #0000;
+      --btn-border: #0000;
+      --btn-noise: none;
+
+      &:not(:disabled, [disabled], &.disabled) {
+        @apply outline-current;
+
+        --btn-fg: currentcolor;
+      }
     }
 
-    &:disabled {
-        opacity:.5;
-        cursor:not-allowed;
+    @media (hover: none) {
+      &:hover:not(&.active, :active, :focus-visible, :disabled, [disabled], &.disabled) {
+        --btn-shadow: "";
+        --btn-bg: #0000;
+        --btn-border: #0000;
+        --btn-noise: none;
+        --btn-fg: currentcolor;
+      }
+    }
+  }
+
+  &.link {
+    @apply underline outline-current;
+
+    --btn-border: #0000;
+    --btn-bg: #0000;
+    --btn-fg: var(--color-primary);
+    --btn-noise: none;
+    --btn-shadow: "";
+
+    &:is(&.active, :hover, :active:focus, :focus-visible) {
+      @apply underline;
+
+      --btn-border: #0000;
+      --btn-bg: #0000;
     }
 
-    &:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 calc(2 * var(--border))
-        color-mix(in oklch, var(--bg) 45%, var(--color-base-100)),
-        0 2px 10px color-mix(in oklch, var(--bg) 15%, transparent);
+    @media (hover: none) {
+      &:hover:not(&.active, :active, :focus-visible, :disabled, [disabled], &.disabled) {
+        @apply no-underline;
+      }
+    }
+  }
+
+  &.outline {
+    &:not(
+      &.active,
+      :hover,
+      :active:focus,
+      :focus-visible,
+      :disabled,
+      [disabled],
+      &.disabled,
+      :checked
+    ) {
+      --btn-shadow: "";
+      --btn-bg: #0000;
+      --btn-fg: var(--btn-color);
+      --btn-border: var(--btn-color);
+      --btn-noise: none;
     }
 
-    &.primary   {
-      --bg: var(--color-primary);
-      --bc: var(--color-primary);
-      --fg: var(--color-primary-content);
+    @media (hover: none) {
+      &:hover:not(&.active, :active, :focus-visible, :disabled, [disabled], &.disabled, :checked) {
+        --btn-shadow: "";
+        --btn-bg: #0000;
+        --btn-fg: var(--btn-color);
+        --btn-border: var(--btn-color);
+        --btn-noise: none;
+      }
+    }
+  }
+
+  &.dash {
+    &:not(
+      &.active,
+      :hover,
+      :active:focus,
+      :focus-visible,
+      :disabled,
+      [disabled],
+      &.disabled,
+      :checked
+    ) {
+      --btn-shadow: "";
+
+      border-style: dashed;
+
+      --btn-bg: #0000;
+      --btn-fg: var(--btn-color);
+      --btn-border: var(--btn-color);
+      --btn-noise: none;
     }
 
-    &.secondary {
-      --bg: var(--color-secondary);
-      --bc: var(--color-secondary);
-      --fg: var(--color-secondary-content);
-    }
+    @media (hover: none) {
+      &:hover:not(&.active, :active, :focus-visible, :disabled, [disabled], &.disabled, :checked) {
+        --btn-shadow: "";
 
-    &.accent    {
-      --bg: var(--color-accent);
-      --bc: var(--color-accent);
-      --fg: var(--color-accent-content);
-    }
-
-    &.neutral   {
-      --bg: var(--color-neutral);
-      --bc: var(--color-neutral);
-      --fg: var(--color-neutral-content);
-    }
-
-    &.info      {
-      --bg: var(--color-info);
-      --bc: var(--color-info);
-      --fg: var(--color-info-content);
-    }
-
-    &.success   {
-      --bg: var(--color-success);
-      --bc: var(--color-success);
-      --fg: var(--color-success-content);
-    }
-
-    &.warning   {
-      --bg: var(--color-warning);
-      --bc: var(--color-warning);
-      --fg: var(--color-warning-content);
-    }
-
-    &.error     {
-      --bg: var(--color-error);
-      --bc: var(--color-error);
-      --fg: var(--color-error-content);
-    }
-
-    &.xs {
-        height: calc(var(--size-field, .25rem) * 6);
-        padding: .5rem;
-        font-size: .6875rem;
-    }
-
-    &.sm {
-        height: calc(var(--size-field, .25rem) * 8);
-        padding: .75rem;
-        font-size: .75rem;
-    }
-
-    &.lg {
-        height: calc(var(--size-field, .25rem) * 12);
-        padding: 1.25rem;
-        font-size: 1.125rem;
-    }
-
-    &.xl {
-        height: calc(var(--size-field, .25rem) * 14);
-        padding: 1.5rem;
-        font-size: 1.375rem;
-    }
-
-    &.outline:not(:hover,:active:focus,:focus-visible,:disabled,[disabled]) {
-        background: transparent;
-        color: var(--bg);
-        border-color: currentcolor;
-    }
-
-    &.ghost:not(:hover,:active:focus,:focus-visible,:disabled,[disabled]) {
-        background: transparent; color: var(--bg);
-    }
-
-    &.soft:not(:hover,:active:focus,:focus-visible,:disabled,[disabled]) {
-        --bc: transparent;
-
-        background: color-mix(in oklch, var(--bg) 15%, #FFF);
-        color: var(--bg);
-    }
-
-    &.dashed:not(:hover,:active:focus,:focus-visible,:disabled,[disabled]) {
-        background: transparent;
-        color: var(--bg);
-        border-color: currentcolor;
         border-style: dashed;
+
+        --btn-bg: #0000;
+        --btn-fg: var(--btn-color);
+        --btn-border: var(--btn-color);
+        --btn-noise: none;
+      }
+    }
+  }
+
+  &.soft {
+    &:not(&.active, :hover, :active:focus, :focus-visible, :disabled, [disabled], &.disabled) {
+      --btn-shadow: "";
+      --btn-fg: var(--btn-color, var(--color-base-content));
+      --btn-bg: color-mix(
+        in oklab,
+        var(--btn-color, var(--color-base-content)) 8%,
+        var(--color-base-100)
+      );
+      --btn-border: color-mix(
+        in oklab,
+        var(--btn-color, var(--color-base-content)) 10%,
+        var(--color-base-100)
+      );
+      --btn-noise: none;
     }
 
-    & svg {
-        width: 1.2em;
-        height: 1.2em;
-        color: currentcolor;
+    @media (hover: none) {
+      &:hover:not(&.active, :active, :focus-visible, :disabled, [disabled], &.disabled) {
+        --btn-shadow: "";
+        --btn-fg: var(--btn-color, var(--color-base-content));
+        --btn-bg: color-mix(
+          in oklab,
+          var(--btn-color, var(--color-base-content)) 8%,
+          var(--color-base-100)
+        );
+        --btn-border: color-mix(
+          in oklab,
+          var(--btn-color, var(--color-base-content)) 10%,
+          var(--color-base-100)
+        );
+        --btn-noise: none;
+      }
     }
+  }
+
+  &.xs {
+    --fontsize: 0.6875rem;
+    --btn-p: 0.5rem;
+    --size: calc(var(--size-field, 0.25rem) * 6);
+  }
+
+  &.sm {
+    --fontsize: 0.75rem;
+    --btn-p: 0.75rem;
+    --size: calc(var(--size-field, 0.25rem) * 8);
+  }
+
+  &.md {
+    --fontsize: 0.875rem;
+    --btn-p: 1rem;
+    --size: calc(var(--size-field, 0.25rem) * 10);
+  }
+
+  &.lg {
+    --fontsize: 1.125rem;
+    --btn-p: 1.25rem;
+    --size: calc(var(--size-field, 0.25rem) * 12);
+  }
+
+  &.xl {
+    --fontsize: 1.375rem;
+    --btn-p: 1.5rem;
+    --size: calc(var(--size-field, 0.25rem) * 14);
+  }
+
+  &.square {
+    @apply px-0;
+
+    width: var(--size);
+    height: var(--size);
+  }
+
+  &.circle {
+    @apply rounded-full px-0;
+
+    width: var(--size);
+    height: var(--size);
+  }
+
+  &.wide {
+    @apply w-full max-w-64;
+  }
+
+  &.block {
+    @apply w-full;
+  }
 }

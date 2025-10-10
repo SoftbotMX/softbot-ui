@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Option from "./option";
+import type { SubmenuProps } from "./types";
 
 const Submenu = (props: SubmenuProps) => {
   const { icon, deactivate, navigation, options, title } = props;

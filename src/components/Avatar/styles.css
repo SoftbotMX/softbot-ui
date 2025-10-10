@@ -1,0 +1,171 @@
+.avatar-group {
+  @apply flex overflow-hidden;
+
+  :where(.avatar) {
+    @apply overflow-hidden rounded-full w-12;
+
+    border: 4px solid var(--color-base-100);
+  }
+}
+
+.avatar {
+  @apply relative inline-flex align-middle;
+
+  & > div {
+    @apply block aspect-square overflow-hidden;
+  }
+
+  img {
+    @apply h-full w-full object-cover;
+  }
+}
+
+.avatar-placeholder {
+  & > div {
+    @apply flex items-center justify-center;
+  }
+}
+
+.avatar-online {
+  &::before {
+    top: 7%;
+    right: 7%;
+    width: 15%;
+    height: 15%;
+    outline: 2px solid var(--color-base-100);
+    content: "";
+
+    @apply bg-success absolute z-1 block rounded-full;
+  }
+}
+
+.avatar-busy {
+  &::before {
+    top: 7%;
+    right: 7%;
+    width: 15%;
+    height: 15%;
+    outline: 2px solid var(--color-base-100);
+    content: "";
+
+    @apply bg-red-600 absolute z-1 block rounded-full;
+  }
+}
+
+.avatar-away {
+  &::before {
+    top: 7%;
+    right: 7%;
+    width: 15%;
+    height: 15%;
+    outline: 2px solid var(--color-base-100);
+    content: "";
+
+    @apply bg-yellow-400 absolute z-1 block rounded-full;
+  }
+}
+
+.avatar-offline {
+  &::before {
+    top: 7%;
+    right: 7%;
+    width: 15%;
+    height: 15%;
+    outline: 2px solid var(--color-base-100);
+    content: "";
+
+    @apply bg-base-300 absolute z-1 block rounded-full;
+  }
+}
+
+.avatar-xs {
+  @apply w-8 text-xs;
+}
+
+.avatar-sm {
+  @apply w-16 text-sm;
+}
+
+.avatar-md {
+  @apply w-24 text-base;
+}
+
+.avatar-lg {
+  @apply w-32 text-4xl;
+}
+
+.avatar-xl {
+  @apply w-40 text-5xl;
+}
+
+.ring-primary {
+  color: var(--color-primary);
+}
+
+.ring-secondary {
+  color: var(--color-secondary);
+}
+
+.ring-accent {
+  color: var(--color-accent);
+}
+
+.ring-neutral {
+  color: var(--color-neutral);
+}
+
+.ring-info {
+  color: var(--color-info);
+}
+
+.ring-success {
+  color: var(--color-success);
+}
+
+.ring-warning {
+  color: var(--color-warning);
+}
+
+.ring-error {
+  color: var(--color-error);
+}
+
+.bg-primary {
+  color: var(--color-primary-content);
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  color: var(--color-secondary-content);
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  color: var(--color-accent-content);
+  background-color: var(--color-accent);
+}
+
+.bg-neutral {
+  color: var(--color-neutral-content);
+  background-color: var(--color-neutral);
+}
+
+.bg-info {
+  color: var(--color-info-content);
+  background-color: var(--color-info);
+}
+
+.bg-success {
+  color: var(--color-success-content);
+  background-color: var(--color-success);
+}
+
+.bg-warning {
+  color: var(--color-warning-content);
+  background-color: var(--color-warning);
+}
+
+.bg-error {
+  color: var(--color-error-content);
+  background-color: var(--color-error);
+}

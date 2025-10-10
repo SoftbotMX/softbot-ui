@@ -1,0 +1,44 @@
+.breadcrumbs {
+  @apply max-w-full overflow-x-auto py-2;
+
+  & .icon-symbols {
+    font-size: 1rem;
+  }
+
+  > menu,
+  > ul,
+  > ol {
+    @apply flex min-h-min items-center whitespace-nowrap;
+
+    > li {
+      @apply flex items-center;
+
+      > * {
+        @apply flex cursor-pointer items-center gap-2 hover:underline;
+
+        &:focus {
+          @apply outline-hidden;
+        }
+
+        &:focus-visible {
+          outline: 2px solid currentcolor;
+          outline-offset: 2px;
+        }
+      }
+
+      & + *::before {
+        background-color: #0000;
+        border-right: 1px solid;
+        border-top: 1px solid;
+        content: "";
+        rotate: 45deg;
+
+        @apply mr-3 ml-2 block h-1.5 w-1.5 opacity-40;
+      }
+
+      [dir="rtl"] & + *::before {
+        rotate: -135deg;
+      }
+    }
+  }
+}

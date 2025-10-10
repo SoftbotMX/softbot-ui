@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 
+import type { OptionProps } from "./types";
+
 const Option = (props: OptionProps) => {
   const { badge, icon, link, navigation, title, deactivate } = props;
   const [active, setActive] = useState<boolean>(false);

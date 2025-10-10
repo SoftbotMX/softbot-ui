@@ -23,4 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-./yarn/cache/
+*storybook.log
+storybook-static
+
+.yarn/cache

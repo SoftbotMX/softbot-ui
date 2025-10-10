@@ -3,8 +3,8 @@ import ctx from "postcss";
 export default {
   plugins: {
     "postcss-import": {},
+    "@tailwindcss/postcss": {},
     "postcss-nesting": {},
-    autoprefixer: {},
     ...(ctx.env === "production" ? { cssnano: { preset: "default" } } : {}),
   },
 };

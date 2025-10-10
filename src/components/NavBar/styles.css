@@ -1,32 +1,29 @@
-nav {
-  --bg: var(--color-base-100);
-  --navh: var(--nav-height);
+.navbar {
+  @apply flex w-full items-center;
 
-  display: grid;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 100%;
-  height: var(--navh);
-  background: var(--color-base-100);
-  gap: .75rem;
-  flex-direction: row;
-
-  & .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--aside-width);
-    height: inherit;
-  }
+  min-height: 4rem;
+  padding: 0.5rem;
 }
 
-:root:has(aside) main {
-  --asidew: var(--aside-width);
+:where(.navbar) {
+  @apply relative;
 }
 
-:root:has(aside.right) main {
-  right: var(--asidew);
-  left: 0;
+.navbar-start {
+  @apply inline-flex items-center;
+
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.navbar-center {
+  @apply inline-flex items-center;
+  @apply shrink-0;
+}
+
+.navbar-end {
+  @apply inline-flex items-center;
+
+  justify-content: flex-end;
+  width: 50%;
 }
