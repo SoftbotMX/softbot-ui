@@ -3,8 +3,6 @@ import * as React from "react";
 
 import Navbar from "./index";
 
-// Si ya tienes Button/Input, úsalos.
-// Aquí asumo que existen: Button (btn), Input (input)
 const Button = (props: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: string }) => (
   <button className={`btn ${props.tone ? `btn-${props.tone}` : ""}`} {...props} />
 );
