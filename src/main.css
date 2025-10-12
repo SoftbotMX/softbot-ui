@@ -1,9 +1,9 @@
+@import url("./base.css");
 @import url("tailwindcss");
+@import url("./utils.css");
 @import url("./components/Theme/styles.css");
 @import url("./themes/light.css");
 @import url("./themes/dark.css");
-@import url("./utils.css");
-@import url("./base.css");
 @import url("./components/Alert/styles.css");
 @import url("./components/Avatar/styles.css");
 @import url("./components/Badge/styles.css");
@@ -18,7 +18,7 @@
 @import url("./components/Dropdown/styles.css");
 @import url("./components/Fab/styles.css");
 @import url("./components/Fieldset/styles.css");
-@import url("components/FileInput/styles.css");
+@import url("./components/FileInput/styles.css");
 @import url("./components/Filter/styles.css");
 @import url("./components/Indicator/styles.css");
 @import url("./components/Input/styles.css");
