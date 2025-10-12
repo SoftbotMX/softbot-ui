@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
-type Tone =
+export type TextareaSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type TextareaTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -15,8 +15,8 @@ type Resize = "both" | "x" | "y" | "none";
 
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
-  size?: Size;
-  tone?: Tone;
+  size?: TextareaSize;
+  tone?: TextareaTone;
   ghost?: boolean;
   fluid?: boolean;
   resize?: Resize;

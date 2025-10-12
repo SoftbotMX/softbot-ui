@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Shape = "box" | "field" | "full";
+export type SkeletonShape = "box" | "field" | "full";
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  shape?: Shape;
+  shape?: SkeletonShape;
   width?: number | string;
   height?: number | string;
 }

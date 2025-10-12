@@ -3,8 +3,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Placement = "top" | "bottom" | "left" | "right";
-type Tone =
+export type TooltipPlacement = "top" | "bottom" | "left" | "right";
+export type TooltipTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -16,8 +16,8 @@ type Tone =
 
 export interface TooltipProps extends Omit<React.HTMLAttributes<HTMLElement>, "content"> {
   content?: React.ReactNode;
-  placement?: Placement;
-  tone?: Tone;
+  placement?: TooltipPlacement;
+  tone?: TooltipTone;
   open?: boolean;
   as?: keyof React.JSX.IntrinsicElements;
   ref?: React.Ref<HTMLElement>;

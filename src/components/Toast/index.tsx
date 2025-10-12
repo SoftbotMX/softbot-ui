@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type VPos = "top" | "middle" | "bottom";
-type HPos = "start" | "center" | "end";
-type Tone =
+export type ToastVPos = "top" | "middle" | "bottom";
+export type ToastHPos = "start" | "center" | "end";
+export type ToastTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -18,7 +18,7 @@ export interface ToastItem {
   title?: string;
   description?: string;
   content?: React.ReactNode;
-  tone?: Tone;
+  tone?: ToastTone;
   duration?: number;
   dismissible?: boolean;
   actionLabel?: string;
@@ -30,12 +30,12 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   items?: ToastItem[];
   defaultItems?: ToastItem[];
   onRemove?: (id: string) => void;
-  vertical?: VPos;
-  horizontal?: HPos;
+  vertical?: ToastVPos;
+  horizontal?: ToastHPos;
   itemClassName?: string;
 }
 
-const toneClasses: Record<Tone | "default", string> = {
+const toneClasses: Record<ToastTone | "default", string> = {
   default: "bg-base-200 text-base-content",
   neutral: "bg-neutral text-neutral-content",
   primary: "bg-primary text-primary-content",

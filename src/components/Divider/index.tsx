@@ -4,9 +4,9 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Orientation = "horizontal" | "vertical";
-type Align = "center" | "start" | "end";
-type Tone =
+export type DividerOrientation = "horizontal" | "vertical";
+export type DividerAlign = "center" | "start" | "end";
+export type DividerTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -18,9 +18,9 @@ type Tone =
 
 export interface DividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   children?: React.ReactNode;
-  orientation?: Orientation;
-  align?: Align;
-  tone?: Tone;
+  orientation?: DividerOrientation;
+  align?: DividerAlign;
+  tone?: DividerTone;
   as?: keyof React.JSX.IntrinsicElements;
   ref?: React.Ref<HTMLDivElement>;
 }

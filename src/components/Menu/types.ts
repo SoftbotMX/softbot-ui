@@ -1,11 +1,11 @@
-export interface Option {
+export interface MenuOption {
   badge?: string;
   icon?: string;
   link: string;
   title: string;
 }
 
-export interface OptionProps extends Option {
+export interface OptionProps extends MenuOption {
   deactivate: (option: OptionActive) => void;
   navigation: (link: string) => void;
 }
@@ -14,19 +14,19 @@ export interface OptionActive {
   option: (active: boolean) => void;
 }
 
-export interface Submenu {
+export interface SubmenuOptions {
   icon?: string;
-  options: Option[];
+  options: MenuOption[];
   title: string;
 }
 
-export interface SubmenuProps extends Submenu {
+export interface SubmenuProps extends SubmenuOptions {
   deactivate: (option: OptionActive) => void;
   navigation: (link: string) => void;
 }
 
 export interface MenuOptions {
   section?: string;
-  options: Option[] | Submenu;
+  options: MenuOption[] | SubmenuOptions;
   isSubmenu?: boolean;
 }

@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Unit = "days" | "hours" | "minutes" | "seconds";
-type SepKind = "colon" | "dot" | "slash" | "space";
+export type Unit = "days" | "hours" | "minutes" | "seconds";
+export type SepKind = "colon" | "dot" | "slash" | "space";
 
 export interface CountdownProps extends React.HTMLAttributes<HTMLDivElement> {
   /* ---- FUENTE DE TIEMPO ---- */

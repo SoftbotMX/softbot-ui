@@ -1,9 +1,10 @@
 {
   "name": "@SoftbotMX/softbot-ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "dist/assets"
   ],
   "sideEffects": [
     "**/*.css"
@@ -27,7 +28,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "rm -rf dist && vite build && npm run build:css",
+    "build": "rm -rf dist && vite build && npm run build:css && cp -r src/assets dist",
     "build:css": "NODE_ENV=production postcss src/main.css -o dist/styles.css",
     "dev": "vite",
     "dev:storybook": "storybook dev -p 6006",

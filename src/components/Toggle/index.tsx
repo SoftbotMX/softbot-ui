@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
-type Tone =
+export type ToggleSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ToggleTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -17,8 +17,8 @@ export interface ToggleProps extends Omit<React.HTMLAttributes<HTMLInputElement>
   defaultChecked?: boolean;
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
-  size?: Size;
-  tone?: Tone;
+  size?: ToggleSize;
+  tone?: ToggleTone;
   iconOff?: React.ReactNode;
   iconOn?: React.ReactNode;
   name?: string;

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Tone =
+export type ProgressTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -14,7 +14,7 @@ type Tone =
 export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLProgressElement>, "value"> {
   value?: number;
   max?: number;
-  tone?: Tone;
+  tone?: ProgressTone;
   thickness?: number | string;
   "aria-label"?: string;
   ref?: React.Ref<HTMLProgressElement>;

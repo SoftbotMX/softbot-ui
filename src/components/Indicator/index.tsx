@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type HPos = "start" | "center" | "end";
-type VPos = "top" | "middle" | "bottom";
+export type IndicatorHPos = "start" | "center" | "end";
+export type IndicatorVPos = "top" | "middle" | "bottom";
 
 export interface IndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   label?: React.ReactNode;
   icon?: string;
-  horizontal?: HPos;
-  vertical?: VPos;
+  horizontal?: IndicatorHPos;
+  vertical?: IndicatorVPos;
   hidden?: boolean;
   itemClassName?: string;
   offsetX?: string;

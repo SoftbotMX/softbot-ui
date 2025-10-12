@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Orientation = "horizontal" | "vertical";
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
-type Tone =
+export type TimelineOrientation = "horizontal" | "vertical";
+export type TimelineSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type TimelineTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -19,14 +19,14 @@ export interface TimelineItem {
   middle?: React.ReactNode;
   startBox?: boolean;
   endBox?: boolean;
-  iconTone?: Tone;
-  iconSize?: Size;
+  iconTone?: TimelineTone;
+  iconSize?: TimelineSize;
   className?: string;
 }
 
 export interface TimelineProps extends React.HTMLAttributes<HTMLUListElement> {
   items: TimelineItem[];
-  orientation?: Orientation;
+  orientation?: TimelineOrientation;
   compact?: boolean;
   snapIcon?: boolean;
   ref?: React.Ref<HTMLUListElement>;
@@ -36,9 +36,10 @@ const Box: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="timeline-box">{children}</div>
 );
 
-const DefaultDot: React.FC<{ tone?: Tone; size?: Size }> = ({ tone = "primary", size = "md" }) => (
-  <span className={clsx("status", `status-${tone}`, `status-${size}`)} />
-);
+const DefaultDot: React.FC<{ tone?: TimelineTone; size?: TimelineSize }> = ({
+  tone = "primary",
+  size = "md",
+}) => <span className={clsx("status", `status-${tone}`, `status-${size}`)} />;
 
 const Timeline: React.FC<TimelineProps> = ({
   items,

@@ -4,12 +4,7 @@ import type { ButtonHTMLAttributes } from "react";
 
 import Option from "./option";
 import Submenu from "./submenu";
-import type {
-  MenuOptions,
-  OptionActive,
-  Submenu as SubmenuProps,
-  Option as OptionProps,
-} from "./types";
+import type { MenuOptions, OptionActive, SubmenuOptions, MenuOption } from "./types";
 
 export interface MenuProps extends ButtonHTMLAttributes<HTMLDivElement> {
   position?: "left" | "right";
@@ -41,12 +36,12 @@ const Menu = (props: MenuProps) => {
               {data.isSubmenu ? (
                 <Submenu
                   navigation={navigation}
-                  options={(data.options as SubmenuProps).options}
-                  title={(data.options as SubmenuProps).title}
+                  options={(data.options as SubmenuOptions).options}
+                  title={(data.options as SubmenuOptions).title}
                   deactivate={deactivate}
                 />
               ) : (
-                (data.options as OptionProps[]).map((option, index) => (
+                (data.options as MenuOption[]).map((option, index) => (
                   <Option key={index} {...option} navigation={navigation} deactivate={deactivate} />
                 ))
               )}

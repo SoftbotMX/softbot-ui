@@ -4,7 +4,7 @@ import * as React from "react";
 import { getTokens, labelForControl, symbolForControl } from "./helpers";
 import { useControllablePage } from "./useControllablePage";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
+export type PaginationSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface PaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   total: number;
@@ -14,7 +14,7 @@ export interface PaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   siblingCount?: number;
   showEdges?: boolean;
   showPrevNext?: boolean;
-  size?: Size;
+  size?: PaginationSize;
   disabled?: boolean;
   itemClassName?: string;
   "aria-label"?: string;

@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type HPlacement = "start" | "center" | "end";
-type Side = "bottom" | "top" | "left" | "right";
+export type DropDownPlacement = "start" | "center" | "end";
+export type DropdownSide = "bottom" | "top" | "left" | "right";
 
 export interface DropdownProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "content" | "popover"> {
@@ -12,8 +12,8 @@ export interface DropdownProps
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   hover?: boolean;
-  placement?: HPlacement;
-  side?: Side;
+  placement?: DropDownPlacement;
+  side?: DropdownSide;
   popover?: boolean;
   contentClassName?: string;
   triggerWrapperClassName?: string;

@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
+export type TableSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-export interface Column<T = any> {
+export interface Column<T> {
   key: string;
   header?: React.ReactNode;
   cell?: (row: T, rowIndex: number) => React.ReactNode;
@@ -13,8 +13,7 @@ export interface Column<T = any> {
   width?: number | string;
 }
 
-export interface TableProps<T = any>
-  extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
+export interface TableProps<T> extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
   columns: Column<T>[];
   data: T[];
   caption?: React.ReactNode;
@@ -22,13 +21,13 @@ export interface TableProps<T = any>
   rowHover?: boolean;
   pinRows?: "header" | "footer" | "both";
   pinCols?: boolean;
-  size?: Size;
+  size?: TableSize;
   rowClassName?: (row: T, index: number) => string | undefined;
   onRowClick?: (row: T, index: number) => void;
   valueGetter?: (row: T, key: string) => React.ReactNode;
 }
 
-function getByPath(obj: any, path: string): any {
+function getByPath(obj: any, path: string) {
   if (!path) return undefined;
   return path.split(".").reduce((acc, k) => (acc == null ? acc : acc[k]), obj);
 }

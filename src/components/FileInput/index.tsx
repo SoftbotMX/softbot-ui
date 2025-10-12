@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Tone =
+export type FieldInputTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -11,15 +11,15 @@ type Tone =
   | "warning"
   | "error";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
+export type FieldInputSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface FileInputProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     "size" | "color" | "type" | "onChange"
   > {
-  tone?: Tone;
-  size?: Size;
+  tone?: FieldInputTone;
+  size?: FieldInputSize;
   ghost?: boolean;
   showNames?: boolean;
   nameSeparator?: string;

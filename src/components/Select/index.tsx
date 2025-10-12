@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
-type Tone =
+export type SelectSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type SelectTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -34,8 +34,8 @@ export interface SelectProps
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
-  size?: Size;
-  tone?: Tone;
+  size?: SelectSize;
+  tone?: SelectTone;
   ghost?: boolean;
   placeholder?: string;
   wrapperClassName?: string;

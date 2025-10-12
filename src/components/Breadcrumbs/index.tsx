@@ -25,11 +25,6 @@ const sizeToClass: Record<BreadcrumbSize, string> = {
   lg: "text-lg",
 };
 
-const renderIcon = (icon: BreadcrumbItem["icon"]) => {
-  if (icon == null) return null;
-  return typeof icon === "string" ? <span className="icon-symbols">{icon}</span> : icon;
-};
-
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   items,
   size = "sm",
@@ -50,7 +45,13 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
             const isLast = i === last;
             const content = (
               <>
-                {renderIcon(it.icon)}
+                {it.icon ? (
+                  it.icon === "string" ? (
+                    <span className="icon-symbols">{it.icon}</span>
+                  ) : (
+                    it.icon
+                  )
+                ) : undefined}
                 {it.label}
               </>
             );

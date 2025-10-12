@@ -51,38 +51,56 @@
 @import url("./components/Tooltip/styles.css");
 @import url("./components/Validator/styles.css");
 
-@layer utilities, base, components, overrides;
-
-@layer components {
-  @font-face {
-    font-family: Icons-Font;
-    font-style: normal;
-    font-variation-settings:
-      "FILL" 0,
-      "wght" 400,
-      "GRAD" 0,
-      "opsz" 24;
-    src: url("./assets/fonts/icons.woff2") format("woff2");
-  }
-
-  .icon-symbols {
-    display: inline-block;
-    font-size: 24px;
-    font-weight: normal;
-    line-height: 1;
-    letter-spacing: normal;
-    direction: ltr;
-    font-family: Icons-Font, sans-serif;
-    font-style: normal;
-    overflow-wrap: normal;
-    text-transform: none;
-    white-space: nowrap;
-  }
+@font-face {
+  font-weight: 100 700;
+  font-display: block;
+  font-family: Icons-Font;
+  font-style: normal;
+  src: url("./assets/fonts/icons.woff2") format("woff2");
 }
 
-@layer tokens {
-  :root {
-    color-scheme: light dark;
-    scrollbar-color: currentColor #0000;
-  }
+.icon-symbols {
+  display: inline-block;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  direction: ltr;
+  font-family: Icons-Font, sans-serif;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-variation-settings:
+    "FILL" var(--ms-fill, 0),
+    "wght" var(--ms-wght, 400),
+    "GRAD" var(--ms-grad, 0),
+    "opsz" var(--ms-opsz, 24);
+  overflow-wrap: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.icon-symbols.fill {
+  --ms-fill: 1;
+}
+
+.icon-symbols.bold {
+  --ms-wght: 600;
+}
+
+.icon-symbols.light {
+  --ms-wght: 300;
+}
+
+.icon-symbols.grad {
+  --ms-grad: 0;
+}
+
+.icon-symbols.size-20 {
+  --ms-opsz: 20;
+}
+
+:root {
+  color-scheme: light dark;
+  scrollbar-color: currentColor #0000;
 }

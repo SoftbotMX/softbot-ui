@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
-type Tone =
+export type FilterSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type FilterTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -19,22 +19,19 @@ export interface FilterOption {
   className?: string;
 }
 
-type FilterType = "radio" | "checkbox";
+export type FilterType = "radio" | "checkbox";
 
 export interface FilterProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   name?: string;
   options: FilterOption[];
-  /** Radio: string|null — Checkbox: string[]|null */
   value?: string | string[] | null;
-  /** Radio: string|null — Checkbox: string[]|null */
   defaultValue?: string | string[] | null;
-  /** Radio: (string|null) — Checkbox: (string[]|null) */
   onChange?: (value: string | string[] | null) => void;
   showReset?: "left" | "right";
   type?: FilterType;
-  size?: Size;
-  tone?: Tone;
+  size?: FilterSize;
+  tone?: FilterTone;
   ghost?: boolean;
   itemClassName?: string;
   ref?: React.Ref<HTMLDivElement>;

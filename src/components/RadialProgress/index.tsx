@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import * as React from "react";
 
-type Tone =
+export type RadialProgressTone =
   | "neutral"
   | "primary"
   | "secondary"
@@ -15,7 +15,7 @@ export interface RadialProgressProps extends React.HTMLAttributes<HTMLDivElement
   value?: number;
   size?: number | string;
   thickness?: number | string;
-  tone?: Tone;
+  tone?: RadialProgressTone;
   children?: React.ReactNode;
   "aria-label"?: string;
   ref?: React.Ref<HTMLDivElement>;
@@ -23,7 +23,7 @@ export interface RadialProgressProps extends React.HTMLAttributes<HTMLDivElement
 
 const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
 
-const toneClass = (tone?: Tone) => (tone ? `text-${tone}` : undefined);
+const toneClass = (tone?: RadialProgressTone) => (tone ? `text-${tone}` : undefined);
 
 const RadialProgress = ({
   value = 0,
