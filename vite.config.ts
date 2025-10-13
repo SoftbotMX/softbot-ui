@@ -19,9 +19,9 @@ export default defineConfig({
       fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"),
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss"],
       output: {
-        globals: { react: "React", "react-dom": "ReactDOM" },
+        globals: { react: "React", "react-dom": "ReactDOM", tailwindcss: "tailwindcss" },
       },
     },
   },

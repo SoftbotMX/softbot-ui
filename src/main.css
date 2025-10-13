@@ -1,5 +1,4 @@
 @import url("./base.css");
-@import url("tailwindcss");
 @import url("./utils.css");
 @import url("./components/Theme/styles.css");
 @import url("./themes/light.css");

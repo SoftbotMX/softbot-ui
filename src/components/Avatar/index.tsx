@@ -102,11 +102,11 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const hidden = typeof max === "number" ? items.length - show.length : 0;
 
   return (
-    <div className={clsx("avatar-group", "-space-x-6", className)} {...rest}>
+    <div className={clsx("avatar-group", className)} {...rest}>
       {show}
       {hidden > 0 ? (
         <div className="avatar avatar-placeholder">
-          <div className="bg-neutral text-neutral-content w-12">
+          <div className="bg-neutral w-12">
             <span className={clsx("avatar-placeholder", counterClassName)}>+{hidden}</span>
           </div>
         </div>

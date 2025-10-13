@@ -6,14 +6,17 @@ import Option from "./option";
 import Submenu from "./submenu";
 import type { MenuOptions, OptionActive, SubmenuOptions, MenuOption } from "./types";
 
-export interface MenuProps extends ButtonHTMLAttributes<HTMLDivElement> {
+export type MenuSize = "sm" | "md" | "lg" | "xl";
+
+export interface MenuProps extends ButtonHTMLAttributes<HTMLUListElement> {
   position?: "left" | "right";
+  size?: MenuSize;
   menu: MenuOptions[];
   navigation: (link: string) => void;
 }
 
 const Menu = (props: MenuProps) => {
-  const { menu, position = "left", className, navigation, ...rest } = props;
+  const { menu, position = "left", className, size, navigation, ...rest } = props;
 
   const [active, setActive] = useState<OptionActive | null>(null);
 
@@ -27,29 +30,31 @@ const Menu = (props: MenuProps) => {
   };
 
   return (
-    <aside className={clsx(position, className)} {...rest}>
-      <ul className="menu" aria-label="Sidebar">
-        {menu.map((data, sectionIndex) => {
-          return (
-            <Fragment key={sectionIndex}>
-              {data.section && <li className="menu-title">{data.section}</li>}
-              {data.isSubmenu ? (
-                <Submenu
-                  navigation={navigation}
-                  options={(data.options as SubmenuOptions).options}
-                  title={(data.options as SubmenuOptions).title}
-                  deactivate={deactivate}
-                />
-              ) : (
-                (data.options as MenuOption[]).map((option, index) => (
-                  <Option key={index} {...option} navigation={navigation} deactivate={deactivate} />
-                ))
-              )}
-            </Fragment>
-          );
-        })}
-      </ul>
-    </aside>
+    <ul
+      className={clsx("menu", `menu-${size}`, position, className)}
+      aria-label="Sidebar"
+      {...rest}
+    >
+      {menu.map((data, sectionIndex) => {
+        return (
+          <Fragment key={sectionIndex}>
+            {data.section && <li className="menu-title">{data.section}</li>}
+            {data.isSubmenu ? (
+              <Submenu
+                navigation={navigation}
+                options={(data.options as SubmenuOptions).options}
+                title={(data.options as SubmenuOptions).title}
+                deactivate={deactivate}
+              />
+            ) : (
+              (data.options as MenuOption[]).map((option, index) => (
+                <Option key={index} {...option} navigation={navigation} deactivate={deactivate} />
+              ))
+            )}
+          </Fragment>
+        );
+      })}
+    </ul>
   );
 };
 
