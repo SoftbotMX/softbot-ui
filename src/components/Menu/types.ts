@@ -1,8 +1,10 @@
 export interface MenuOption {
   badge?: string;
   icon?: string;
-  link: string;
+  link?: string;
+  onClick?: () => void;
   title: string;
+  disabled?: boolean;
 }
 
 export interface OptionProps extends MenuOption {

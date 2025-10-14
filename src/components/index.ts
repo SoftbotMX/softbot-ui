@@ -24,6 +24,7 @@ export { default as Mask } from "./Mask";
 export { default as Menu } from "./Menu";
 export { default as Modal } from "./Modal";
 export { default as Navbar } from "./Navbar";
+export { default as Pagination } from "./Pagination";
 export { default as Progress } from "./Progress";
 export { default as RadialProgress } from "./RadialProgress";
 export { default as Radio } from "./Radio";
@@ -103,7 +104,7 @@ export type { StatusTone, StatusSize, StatusProps } from "./Status";
 export type { StepsOrientation, StepTone, StepItem, StepsProps } from "./Steps";
 export type { SwapProps } from "./Swap";
 export type { TabItem, TabsProps } from "./Tab";
-export type { TableSize, TableProps } from "./Table";
+export type { TableSize, Column, TableProps } from "./Table";
 export type { TextareaSize, TextareaTone, TextareaProps } from "./Textarea";
 export type {
   TimelineOrientation,

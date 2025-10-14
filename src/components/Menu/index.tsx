@@ -31,7 +31,7 @@ const Menu = (props: MenuProps) => {
 
   return (
     <ul
-      className={clsx("menu", `menu-${size}`, position, className)}
+      className={clsx("menu", size && `menu-${size}`, position, className)}
       aria-label="Sidebar"
       {...rest}
     >
