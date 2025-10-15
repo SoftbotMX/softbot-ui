@@ -71,7 +71,7 @@ const Button: React.FC<ButtonProps> = ({
           (rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)?.onClick?.(e);
         }}
       >
-        <span className={clsx("inline-flex items-center gap-2")}>
+        <span className={clsx("flex justify-center items-center gap-2")}>
           {iconLeft && <span className={"icon-symbols"}>{iconLeft}</span>}
           {children}
           {iconRight && <span className={"icon-symbols"}>{iconRight}</span>}
@@ -83,7 +83,7 @@ const Button: React.FC<ButtonProps> = ({
   if (as === "span") {
     return (
       <span role="button" {...commonProps} {...(rest as React.HTMLAttributes<HTMLSpanElement>)}>
-        <span className={clsx("inline-flex items-center gap-2")}>
+        <span className={clsx("flex justify-center items-center gap-2")}>
           {iconLeft && <span className={"icon-symbols"}>{iconLeft}</span>}
           {children}
           {iconRight && <span className={"icon-symbols"}>{iconRight}</span>}
@@ -99,7 +99,7 @@ const Button: React.FC<ButtonProps> = ({
       {...commonProps}
       {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
-      <span className={clsx("inline-flex items-center gap-2")}>
+      <span className={clsx("flex justify-center items-center gap-2")}>
         {iconLeft && <span className={"icon-symbols"}>{iconLeft}</span>}
         {children}
         {iconRight && <span className={"icon-symbols"}>{iconRight}</span>}
