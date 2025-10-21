@@ -53,7 +53,11 @@ const Input = (props: InputProps) => {
   };
 
   return (
-    <As className={clsx("input", toneCls, sizeCls, ghostCls, containerClassName)}>
+    <As
+      className={clsx("input", toneCls, sizeCls, ghostCls, containerClassName)}
+      aria-invalid={rest["aria-invalid"]}
+      aria-errormessage={rest["aria-errormessage"]}
+    >
       {left ? (
         typeof left === "string" ? (
           <span className={`icon-symbols opacity-50 text-sm ${toneCls}`}>{left}</span>
