@@ -65,7 +65,7 @@ const Avatar: React.FC<AvatarProps> = ({
               : "rounded",
           ring && "ring-offset-base-100 ring-2 ring-offset-2",
           toneRing && `ring-${toneRing}`,
-          background ? `bg-${background}` : "bg-neutral",
+          background ? `bg-${background}` : !!toneRing && "bg-neutral",
         )}
       >
         {showImage && <img src={src} alt={alt} onError={() => setBroken(true)} {...imgProps} />}
