@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import * as React from "react";
 
-import Tabs, { type TabsProps } from "./index";
+import Tab, { type TabsProps } from "./index";
 
 const meta: Meta<TabsProps> = {
-  title: "Components/Tabs",
-  component: Tabs,
+  title: "Components/Tab",
+  component: Tab,
   parameters: { layout: "padded" },
   args: {
     size: "md",
@@ -50,11 +50,11 @@ export const Bottom: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <Tabs {...args} size="xs" />
-      <Tabs {...args} size="sm" />
-      <Tabs {...args} size="md" />
-      <Tabs {...args} size="lg" />
-      <Tabs {...args} size="xl" />
+      <Tab {...args} size="xs" />
+      <Tab {...args} size="sm" />
+      <Tab {...args} size="md" />
+      <Tab {...args} size="lg" />
+      <Tab {...args} size="xl" />
     </div>
   ),
 };
@@ -64,7 +64,7 @@ export const Controlled: Story = {
     const [val, setVal] = React.useState("t2");
     return (
       <div className="space-y-4">
-        <Tabs
+        <Tab
           {...args}
           value={val}
           onChange={setVal}
