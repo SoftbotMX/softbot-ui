@@ -23,7 +23,7 @@ export { default as Loading } from "./Loading";
 export { default as Mask } from "./Mask";
 export { default as Menu } from "./Menu";
 export { default as Modal } from "./Modal";
-export { default as Navbar } from "./Navbar";
+export { default as Navbar } from "./NavBar";
 export { default as Pagination } from "./Pagination";
 export { default as Progress } from "./Progress";
 export { default as RadialProgress } from "./RadialProgress";
@@ -90,7 +90,7 @@ export type {
 } from "./Menu/types";
 export type { MenuProps } from "./Menu";
 export type { ModalPosition, ModalProps } from "./Modal";
-export type { NavbarProps, NavbarSectionProps } from "./Navbar";
+export type { NavbarProps, NavbarSectionProps } from "./NavBar";
 export type { PaginationSize, PaginationProps } from "./Pagination";
 export type { ProgressTone, ProgressProps } from "./Progress";
 export type { RadialProgressTone, RadialProgressProps } from "./RadialProgress";
