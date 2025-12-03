@@ -103,18 +103,10 @@ export const Empty: Story = {
 export const WithIcons: Story = {
   render: () => (
     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-      <Badge
-        tone="info"
-        iconLeft={<span className="icon-symbols">info</span>}
-        data-testid="badge-icon-left"
-      >
+      <Badge tone="info" iconLeft={"info"} data-testid="badge-icon-left">
         Info
       </Badge>
-      <Badge
-        tone="success"
-        iconRight={<span className="icon-symbols">check</span>}
-        data-testid="badge-icon-right"
-      >
+      <Badge tone="success" iconRight={"check"} data-testid="badge-icon-right">
         Done
       </Badge>
     </div>

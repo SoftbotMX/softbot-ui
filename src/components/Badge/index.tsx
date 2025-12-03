@@ -57,9 +57,9 @@ const Badge: React.FC<BadgeProps> = ({
     >
       {empty ? null : (
         <span className={clsx("inline-flex items-center gap-2")}>
-          {iconLeft}
+          {iconLeft && <span className="icon-symbols">{iconLeft}</span>}
           {children}
-          {iconRight}
+          {iconRight && <span className="icon-symbols">{iconRight}</span>}
         </span>
       )}
     </RawElement>
