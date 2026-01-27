@@ -4,6 +4,7 @@
 @import url("./themes/light.css");
 @import url("./themes/dark.css");
 @import url("./components/Alert/styles.css");
+@import url("./components/Autocomplete/styles.css");
 @import url("./components/Avatar/styles.css");
 @import url("./components/Badge/styles.css");
 @import url("./components/Breadcrumbs/styles.css");

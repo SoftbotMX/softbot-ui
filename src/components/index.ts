@@ -1,4 +1,5 @@
 export { default as Alert } from "./Alert";
+export { default as Autocomplete } from "./Autocomplete";
 export { default as Avatar, AvatarGroup } from "./Avatar";
 export { default as Badge } from "./Badge";
 export { default as Breadcrumbs } from "./Breadcrumbs";
@@ -48,6 +49,12 @@ export { default as Toggle } from "./Toggle";
 export { default as Tooltip } from "./Tooltip";
 
 export type { AlertTone, AlertLook, AlertDirection, AlertProps } from "./Alert";
+export type {
+  AutocompleteSize,
+  AutocompleteTone,
+  AutocompleteOption,
+  AutocompleteProps,
+} from "./Autocomplete";
 export type { AvatarRounded, AvatarSize, AvatarTone, Presence, AvatarProps } from "./Avatar";
 export type { BadgeTone, BadgeLook, BadgeSize, BadgeProps } from "./Badge";
 export type {

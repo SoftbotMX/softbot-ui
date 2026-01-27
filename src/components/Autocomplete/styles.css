@@ -1,0 +1,257 @@
+.autocomplete {
+  width: clamp(3rem, 20rem, 100%);
+  min-height: var(--size);
+  border: var(--border) solid #0000;
+  font-size: 0.875rem;
+  box-shadow:
+    0 1px color-mix(in oklab, var(--input-color) calc(var(--depth) * 10%), #0000) inset,
+    0 -1px oklch(100% 0 0deg / calc(var(--depth) * 0.1)) inset;
+  border-color: var(--input-color);
+  border-end-end-radius: var(--join-ee, var(--radius-field));
+  border-end-start-radius: var(--join-es, var(--radius-field));
+  border-start-end-radius: var(--join-se, var(--radius-field));
+  border-start-start-radius: var(--join-ss, var(--radius-field));
+  cursor: text;
+  touch-action: manipulation;
+
+  @apply bg-base-100 relative inline-flex shrink items-center align-middle;
+
+  --size: calc(var(--size-field, 0.25rem) * 10);
+  --input-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+}
+
+.autocomplete-control {
+  @apply flex w-full items-center gap-2 px-3;
+
+  min-height: var(--size);
+}
+
+.autocomplete-input {
+  @apply inline-flex w-full appearance-none bg-transparent;
+
+  border: none;
+  min-width: 4rem;
+
+  &:focus,
+  &:focus-within {
+    @apply outline-hidden;
+  }
+}
+
+.autocomplete-multiple {
+  @apply flex-wrap;
+}
+
+.autocomplete-multiple .autocomplete-control {
+  @apply flex-wrap gap-1.5 py-1;
+}
+
+.autocomplete-tags {
+  @apply inline-flex flex-wrap items-center gap-1;
+}
+
+.autocomplete-tag {
+  @apply inline-flex items-center gap-1 rounded-field bg-base-200 px-2 py-0.5 text-xs text-base-content/80;
+}
+
+.autocomplete-tag-remove {
+  @apply inline-flex h-4 w-4 items-center justify-center rounded-full text-base-content/60;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    @apply bg-base-300;
+  }
+}
+
+.autocomplete-clear {
+  @apply inline-flex h-5 w-5 items-center justify-center rounded-full text-base-content/50;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    @apply bg-base-200;
+  }
+}
+
+.autocomplete-chevron {
+  @apply text-base-content/50 text-xs;
+
+  pointer-events: none;
+}
+
+.autocomplete-popover {
+  @apply absolute left-0 right-0 z-50 mt-2 rounded-box bg-base-100 p-2;
+
+  top: calc(100% + 0.5rem);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / calc(var(--depth) * 0.1)),
+    0 8px 10px -6px rgb(0 0 0 / calc(var(--depth) * 0.1));
+}
+
+.autocomplete-popover.is-top {
+  top: auto;
+  bottom: calc(100% + 0.5rem);
+}
+
+.autocomplete-options {
+  @apply flex max-h-60 flex-col gap-1 overflow-auto;
+}
+
+.autocomplete-option {
+  @apply rounded-field px-3 py-1.5;
+
+  transition-duration: 0.2s;
+  transition-property: color, background-color;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
+  &:not(.is-disabled):hover,
+  &.is-active {
+    @apply bg-base-content/10 cursor-pointer outline-hidden;
+  }
+
+  &.is-selected {
+    @apply font-medium;
+  }
+
+  &.is-disabled {
+    @apply text-base-content/40 cursor-not-allowed;
+  }
+}
+
+.autocomplete-empty {
+  @apply px-3 py-2 text-sm opacity-60;
+}
+
+.autocomplete:focus,
+.autocomplete:focus-within {
+  --input-color: var(--color-base-content);
+
+  z-index: 1;
+  outline: 2px solid var(--input-color);
+  box-shadow: 0 1px color-mix(in oklab, var(--input-color) calc(var(--depth) * 10%), #0000);
+  isolation: isolate;
+  outline-offset: 2px;
+}
+
+.autocomplete:has(input[disabled]),
+.autocomplete:has(input[disabled]) .autocomplete-input,
+.autocomplete-disabled,
+fieldset:disabled .autocomplete {
+  @apply border-base-200 bg-base-200 text-base-content/40 placeholder-base-content/20 cursor-not-allowed;
+
+  box-shadow: none;
+}
+
+.autocomplete-ghost {
+  @apply bg-transparent;
+
+  box-shadow: none;
+  border-color: #0000;
+
+  &:focus,
+  &:focus-within {
+    @apply text-base-content bg-base-100;
+
+    box-shadow: none;
+    border-color: #0000;
+  }
+}
+
+.autocomplete-neutral {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-neutral);
+  }
+}
+
+.autocomplete-primary {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-primary);
+  }
+}
+
+.autocomplete-secondary {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-secondary);
+  }
+}
+
+.autocomplete-accent {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-accent);
+  }
+}
+
+.autocomplete-info {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-info);
+  }
+}
+
+.autocomplete-success {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-success);
+  }
+}
+
+.autocomplete-warning {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-warning);
+  }
+}
+
+.autocomplete-error {
+  &,
+  &:focus,
+  &:focus-within {
+    --input-color: var(--color-error);
+  }
+}
+
+.autocomplete-xs {
+  --size: calc(var(--size-field, 0.25rem) * 6);
+
+  font-size: 0.6875rem;
+
+  .autocomplete-tag {
+    @apply px-1.5;
+  }
+}
+
+.autocomplete-sm {
+  --size: calc(var(--size-field, 0.25rem) * 8);
+
+  font-size: 0.75rem;
+}
+
+.autocomplete-md {
+  --size: calc(var(--size-field, 0.25rem) * 10);
+
+  font-size: 0.875rem;
+}
+
+.autocomplete-lg {
+  --size: calc(var(--size-field, 0.25rem) * 12);
+
+  font-size: 1.125rem;
+}
+
+.autocomplete-xl {
+  --size: calc(var(--size-field, 0.25rem) * 14);
+
+  font-size: 1.375rem;
+}
