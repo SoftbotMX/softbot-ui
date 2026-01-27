@@ -27,4 +27,3 @@ dist-ssr
 storybook-static
 
 .yarn/cache
-yarn.lock
