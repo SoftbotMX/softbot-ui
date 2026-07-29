@@ -1,39 +1,41 @@
-*,
-::after,
-::before,
-::backdrop {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: 0 solid;
-}
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
 
-::file-selector-button {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: 0 solid;
-}
+  ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
 
-body {
-  margin: 0;
-  background: var(--color-base-100);
-  color: var(--color-base-content);
-  transition:
-    background-color var(--anim-theme) ease,
-    color var(--anim-theme) ease,
-    border-color var(--anim-theme) ease,
-    box-shadow var(--anim-theme) ease;
-  font-family: Roboto, sans-serif;
-}
+  body {
+    margin: 0;
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+    transition:
+      background-color var(--anim-theme) ease,
+      color var(--anim-theme) ease,
+      border-color var(--anim-theme) ease,
+      box-shadow var(--anim-theme) ease;
+    font-family: Roboto, sans-serif;
+  }
 
-ol,
-ul,
-menu {
-  list-style: none;
-  margin-block: 0;
-  padding-inline-start: 0;
-  unicode-bidi: isolate;
+  ol,
+  ul,
+  menu {
+    list-style: none;
+    margin-block: 0;
+    padding-inline-start: 0;
+    unicode-bidi: isolate;
+  }
 }
 
 :root {
