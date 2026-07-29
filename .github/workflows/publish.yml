@@ -9,7 +9,9 @@ on:
       types: [published]
 jobs:
   publish:
-    runs-on: [self-hosted, office]
+    # Runner de GitHub: publicar no necesita nada de la red de la oficina, y con
+    # el self-hosted la publicacion quedaba en cola hasta encender esa maquina.
+    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
