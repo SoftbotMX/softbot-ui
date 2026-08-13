@@ -64,3 +64,37 @@ export default meta;
 export const Default: StoryObj<typeof SmartTable<Row>> = {
   render: (args) => <SmartTable<Row> {...args} />,
 };
+
+/**
+ * El menú de acciones solo aparece si se le pasa `actions`.
+ *
+ * En `Default` no está, y por eso no hay tres puntos en la cabecera: una tabla
+ * sin acciones no debe mostrar un botón que no lleva a ninguna parte.
+ */
+export const ConAcciones: StoryObj<typeof SmartTable<Row>> = {
+  render: (args) => (
+    <SmartTable<Row>
+      {...args}
+      actions={
+        <>
+          <li>
+            <a onClick={() => alert("Exportar CSV")}>Exportar CSV</a>
+          </li>
+          <li>
+            <a onClick={() => alert("Imprimir")}>Imprimir</a>
+          </li>
+        </>
+      }
+    />
+  ),
+};
+
+/**
+ * Una lista corta y completa no necesita paginado.
+ *
+ * Con `paginated={false}` desaparece el pie: con seis filas, «Página 1 de 1»
+ * junto a dos flechas apagadas no informa de nada y ocupa el alto de tres filas.
+ */
+export const SinPaginado: StoryObj<typeof SmartTable<Row>> = {
+  render: (args) => <SmartTable<Row> {...args} data={data.slice(0, 6)} paginated={false} />,
+};
