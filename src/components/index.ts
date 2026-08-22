@@ -106,7 +106,7 @@ export type { RangeSize, RangeTone, RangeProps } from "./Range";
 export type { RatingSize, RatingTone, RatingProps } from "./Rating";
 export type { SelectSize, SelectTone, SelectOption, SelectGroup, SelectProps } from "./Select";
 export type { SkeletonShape, SkeletonProps } from "./Skeleton";
-export type { SortDir, SmartColumn, SmartTableProps } from "./SmartTable/types";
+export type { SortDir, SmartColumn, SmartTableProps, SmartExpandable } from "./SmartTable/types";
 export type { StackAlign, StackProps } from "./Stack";
 export type { StatsProps, StatProps, SlotProps } from "./Stat";
 export type { StatusTone, StatusSize, StatusProps } from "./Status";

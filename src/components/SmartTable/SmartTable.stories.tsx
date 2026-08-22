@@ -98,3 +98,33 @@ export const ConAcciones: StoryObj<typeof SmartTable<Row>> = {
 export const SinPaginado: StoryObj<typeof SmartTable<Row>> = {
   render: (args) => <SmartTable<Row> {...args} data={data.slice(0, 6)} paginated={false} />,
 };
+
+/**
+ * Detalle por fila, con `expandable`.
+ *
+ * La flecha de la primera columna abre un panel a todo lo ancho. Se puede tener
+ * más de uno abierto a la vez, y el que está abierto SIGUE A SU FILA: ordena por
+ * otra columna con un panel desplegado y comprueba que no se queda bajo el
+ * registro equivocado — eso es lo que compra `rowKey`.
+ */
+export const ConDetalle: StoryObj<typeof SmartTable<Row>> = {
+  render: (args) => (
+    <SmartTable<Row>
+      {...args}
+      data={data.slice(0, 6)}
+      paginated={false}
+      expandable={{
+        rowKey: (r) => String(r.id),
+        label: "Ver el detalle de esta persona",
+        content: (r) => (
+          <div className="text-sm">
+            <p className="font-semibold">{r.name}</p>
+            <p className="text-base-content/70">
+              {r.email} · {r.role} · {r.usage}% de uso
+            </p>
+          </div>
+        ),
+      }}
+    />
+  ),
+};
