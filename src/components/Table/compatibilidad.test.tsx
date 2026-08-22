@@ -23,8 +23,13 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import SmartTable from "../SmartTable";
-import Table, { type Column, type TableBaseProps, type TableProps } from "./index";
+// SE IMPORTA POR EL BARRIL, no por la ruta interna, y eso es la mitad del
+// valor de este archivo: los consumidores escriben `from "@softbotmx/softbot-ui"`
+// y lo que les llega es lo que `src/index.ts` reexporta. Importando
+// `./index` la prueba seguía verde después de borrar un tipo del barril, o sea
+// que no vigilaba el contrato público sino la implementación.
+import { SmartTable, Table } from "../../index";
+import type { Column, TableBaseProps, TableProps } from "../../index";
 
 interface Client {
   id: number;
@@ -53,6 +58,10 @@ describe("las llamadas que ya existen ahí fuera", () => {
         ]}
         searchable
         paginated={false}
+        // `initialPageSize` lo usa Conduit en varias pantallas y la versión
+        // anterior de esta prueba decía cubrir «todo» y no lo incluía.
+        initialPageSize={20}
+        pageSizeOptions={[5, 10, 20, 50]}
         initialSortKey="name"
         initialSortDir="desc"
         size="sm"
@@ -64,6 +73,17 @@ describe("las llamadas que ya existen ahí fuera", () => {
     // con la flecha metida a la fuerza habría uno por fila.
     expect(screen.queryAllByRole("button")).toHaveLength(0);
     expect(document.querySelectorAll("thead th")).toHaveLength(2);
+
+    // Y LAS PROPS HACEN ALGO, que es lo que la versión anterior no miraba: se
+    // podían ignorar todas y la prueba seguía verde.
+    const tabla = document.querySelector("table");
+    expect(tabla?.className).toContain("table-sm");
+    expect(tabla?.className).toContain("table-pin-cols");
+    // `initialSortDir="desc"` sobre `name`: La Razón antes que Expreso.
+    const nombres = Array.from(document.querySelectorAll("tbody td:nth-child(2)")).map(
+      (c) => c.textContent,
+    );
+    expect(nombres).toEqual(["La Razón", "Expreso"]);
   });
 
   it("Table a pelo, con sus props de siempre y sin desplegable", () => {
@@ -105,5 +125,46 @@ describe("las llamadas que ya existen ahí fuera", () => {
     render(<Table<Client> {...props} />);
     expect(envuelta.titulo).toBe("Clientes");
     expect(screen.getByText("Expreso")).toBeTruthy();
+  });
+});
+
+describe("expandir sin identidad de fila", () => {
+  it("revienta en vez de pintar mal", () => {
+    // EL TIPO NO BASTA, y por eso hay guarda en ejecución. `TableProps` es una
+    // unión que exige `rowKey` con detalle, pero ensanchar el objeto a
+    // `TableBaseProps` —o escribir `<P extends TableBaseProps<T>>`, que es el
+    // envoltorio que uno escribe sin pensar— borra la comprobación de
+    // propiedades sobrantes y las props llegan igual. Lo encontró codex.
+    //
+    // Se reproduce el rodeo EXACTO: nada de `as any`.
+    const crudo = {
+      columns: [{ key: "name" }] as Column<Client>[],
+      data: clients,
+      expandedContent: () => <div>detalle</div>,
+      isExpanded: () => true,
+    };
+    const ensanchado: TableBaseProps<Client> = crudo;
+
+    expect(() => render(<Table<Client> {...ensanchado} />)).toThrow(/rowKey/);
+  });
+
+  it("y salta aunque la tabla venga vacía, que es como empieza siempre", () => {
+    // Dentro del bucle de filas no serviría: mientras carga no hay filas, así
+    // que el aviso no llegaría hasta que hubiera datos. Es decir, tarde.
+    const crudo = {
+      columns: [{ key: "name" }] as Column<Client>[],
+      data: [] as Client[],
+      expandedContent: () => <div>detalle</div>,
+      isExpanded: () => true,
+    };
+    const ensanchado: TableBaseProps<Client> = crudo;
+
+    expect(() => render(<Table<Client> {...ensanchado} />)).toThrow(/rowKey/);
+  });
+
+  it("sin detalle, no exige nada: las tablas de siempre siguen igual", () => {
+    expect(() =>
+      render(<Table<Client> columns={[{ key: "name" }]} data={clients} />),
+    ).not.toThrow();
   });
 });
