@@ -19,7 +19,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # NODE 22, Y NO 20 POR NOSTALGIA. Con 20 el `jsdom` de las pruebas
+          # revienta al cargar —`webidl.util.markAsUncloneable is not a
+          # function`, de un `undici` que pide un Node más nuevo— y la
+          # publicación se cae ANTES de publicar nada. Además, las propias
+          # acciones ya avisan de que 20 está retirado.
+          node-version: 22
           registry-url: 'https://npm.pkg.github.com'
           scope: '@SoftbotMX'
       - name: Enable Corepack (Yarn)
