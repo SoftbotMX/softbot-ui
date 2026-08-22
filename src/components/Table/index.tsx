@@ -13,7 +13,17 @@ export interface Column<T> {
   width?: number | string;
 }
 
-interface TableBase<T> extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
+/**
+ * Todo lo de una tabla MENOS el desplegable.
+ *
+ * SE EXPORTA POR UNA RAZÓN CONCRETA: `TableProps` es una unión, y de una unión
+ * no se puede `interface Mia extends TableProps<X>`. Quien envuelva `Table` en
+ * un componente propio extiende esto y añade lo suyo. Ningún repo de la casa lo
+ * hacía cuando esto se escribió —se comprobó uno por uno— pero el camino tiene
+ * que existir antes de que alguien lo necesite y se encuentre la puerta cerrada.
+ */
+export interface TableBaseProps<T>
+  extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
   columns: Column<T>[];
   data: T[];
   caption?: React.ReactNode;
@@ -74,7 +84,13 @@ interface ConDetalle<T> {
   rowKey: ClaveDeFila<T>;
 }
 
-export type TableProps<T> = TableBase<T> & (SinDetalle<T> | ConDetalle<T>);
+/**
+ * Las props de `Table`.
+ *
+ * Es una UNIÓN y no una interfaz porque el desplegable exige `rowKey`. Para
+ * extenderla desde fuera está `TableBaseProps`.
+ */
+export type TableProps<T> = TableBaseProps<T> & (SinDetalle<T> | ConDetalle<T>);
 
 function getByPath(obj: any, path: string) {
   if (!path) return undefined;
@@ -102,7 +118,7 @@ const Table = <T,>(props: TableProps<T>) => {
     expandedContent,
     isExpanded,
     ...rest
-  } = props as TableBase<T> & Partial<ConDetalle<T>>;
+  } = props as TableBaseProps<T> & Partial<ConDetalle<T>>;
 
   const tableCls = clsx(
     "table",

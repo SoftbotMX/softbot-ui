@@ -113,7 +113,7 @@ export type { StatusTone, StatusSize, StatusProps } from "./Status";
 export type { StepsOrientation, StepTone, StepItem, StepsProps } from "./Steps";
 export type { SwapProps } from "./Swap";
 export type { TabItem, TabsProps } from "./Tab";
-export type { TableSize, Column, TableProps } from "./Table";
+export type { TableSize, Column, TableProps, TableBaseProps } from "./Table";
 export type { TextareaSize, TextareaTone, TextareaProps } from "./Textarea";
 export type {
   TimelineOrientation,
