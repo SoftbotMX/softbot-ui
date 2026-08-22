@@ -194,6 +194,11 @@ function SmartTable<T>(props: SmartTableProps<T>) {
         size={size}
         columns={tableColumns}
         data={pageRows}
+        // LA MISMA CLAVE QUE EL ESTADO DE APERTURA, y hace falta que sea la
+        // misma: `abiertas` dice QUÉ fila está abierta y esto dice a qué fila
+        // pertenece el panel ya montado. Con una sola de las dos, ordenar deja
+        // el panel bajo la fila correcta pero con el contenido del anterior.
+        rowKey={expandable ? (row) => expandable.rowKey(row) : undefined}
         expandedContent={expandable ? (row) => expandable.content(row) : undefined}
         isExpanded={expandable ? (row) => abiertas.has(expandable.rowKey(row)) : undefined}
       />

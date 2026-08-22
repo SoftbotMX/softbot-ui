@@ -30,6 +30,19 @@ export interface TableProps<T> extends Omit<React.HTMLAttributes<HTMLTableElemen
   pinRows?: "header" | "footer" | "both";
   pinCols?: boolean;
   size?: TableSize;
+  /**
+   * La identidad de cada fila, para el `key` de React.
+   *
+   * SIN ESTO REACT IDENTIFICA LAS FILAS POR POSICIÓN, y al reordenar o paginar
+   * reutiliza el subárbol de la posición 2 para lo que ahora vive ahí. Con
+   * filas planas apenas se nota; con `expandedContent` sí: el panel abierto
+   * conserva el estado del registro anterior —lo que había pedido, lo que el
+   * usuario escribió dentro— bajo la fila de otro. No da ningún error.
+   *
+   * `SmartTable` la pasa sola cuando le dan `expandable`.
+   */
+  rowKey?: (row: T, index: number) => React.Key;
+
   rowClassName?: (row: T, index: number) => string | undefined;
   onRowClick?: (row: T, index: number) => void;
   valueGetter?: (row: T, key: string) => React.ReactNode;
@@ -67,6 +80,7 @@ const Table = <T,>(props: TableProps<T>) => {
     pinCols,
     size = "md",
     className,
+    rowKey,
     rowClassName,
     onRowClick,
     valueGetter = (row, key) => getByPath(row, key),
@@ -119,7 +133,7 @@ const Table = <T,>(props: TableProps<T>) => {
             );
             const abierta = isExpanded?.(row, i) ?? false;
             return (
-              <React.Fragment key={i}>
+              <React.Fragment key={rowKey ? rowKey(row, i) : i}>
                 <tr
                   className={rowCls}
                   onClick={onRowClick ? () => onRowClick(row, i) : undefined}
