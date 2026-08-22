@@ -9,6 +9,25 @@ export interface SmartColumn<T> extends Column<T> {
   sortAccessor?: (row: T) => string | number | Date | boolean | null | undefined;
 }
 
+/**
+ * El detalle que se despliega bajo una fila.
+ *
+ * `rowKey` NO ES OPCIONAL, y ahí está todo el asunto. Guardar «la fila 2 está
+ * abierta» por su posición funciona hasta que alguien ordena por otra columna o
+ * pasa de página: la posición 2 pasa a ser otro registro y el panel se queda
+ * abierto bajo el equivocado, con los datos del anterior. No da ningún error y
+ * es exactamente el fallo que una tabla de comparación no puede permitirse.
+ * Con una clave propia del registro, ordenar y paginar no mueven nada.
+ */
+export interface SmartExpandable<T> {
+  /** Identidad del registro. Un id, una clave — algo que no dependa del orden. */
+  rowKey: (row: T) => string;
+  /** Qué se pinta al abrirlo. Solo se llama para las filas abiertas. */
+  content: (row: T) => React.ReactNode;
+  /** Lo que lee un lector de pantalla en el botón. Por omisión «Ver detalle». */
+  label?: string;
+}
+
 export interface SmartTableProps<T> {
   data: T[];
   columns: SmartColumn<T>[];
@@ -61,6 +80,24 @@ export interface SmartTableProps<T> {
    * ```
    */
   actions?: React.ReactNode;
+
+  /**
+   * Detalle desplegable por fila.
+   *
+   * Añade una primera columna con la flecha que lo abre y lo cierra. Sin esta
+   * prop la columna no existe: una tabla sin detalle no debe enseñar un botón
+   * que no lleva a ninguna parte.
+   *
+   * ```tsx
+   * <SmartTable
+   *   expandable={{
+   *     rowKey: (r) => r.variante,
+   *     content: (r) => <Consumo variante={r.variante} />,
+   *   }}
+   * />
+   * ```
+   */
+  expandable?: SmartExpandable<T>;
 
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   pinCols?: boolean;

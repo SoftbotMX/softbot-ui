@@ -22,6 +22,7 @@ function SmartTable<T>(props: SmartTableProps<T>) {
     initialSortKey,
     initialSortDir = "asc",
     actions,
+    expandable,
     size = "md",
     pinCols,
     className,
@@ -32,6 +33,18 @@ function SmartTable<T>(props: SmartTableProps<T>) {
   const [pageSize, setPageSize] = React.useState(initialPageSize);
   const [sortKey, setSortKey] = React.useState<string | undefined>(initialSortKey);
   const [sortDir, setSortDir] = React.useState<SortDir>(initialSortDir);
+  // POR CLAVE DEL REGISTRO Y NO POR POSICIÓN. Ver `SmartExpandable.rowKey`:
+  // guardar la posición deja el panel abierto bajo otra fila en cuanto alguien
+  // ordena o pasa de página.
+  const [abiertas, setAbiertas] = React.useState<ReadonlySet<string>>(() => new Set());
+
+  const alternar = (clave: string) => {
+    setAbiertas((previas) => {
+      const siguientes = new Set(previas);
+      if (!siguientes.delete(clave)) siguientes.add(clave);
+      return siguientes;
+    });
+  };
 
   const onChangeQuery = (v: string) => {
     setQuery(v);
@@ -81,7 +94,7 @@ function SmartTable<T>(props: SmartTableProps<T>) {
   const canNext = clampedPage < totalPages;
 
   const tableColumns = React.useMemo(() => {
-    return columns.map((c) => {
+    const conFlecha = columns.map((c) => {
       const isSorted = sortKey === c.key;
       const upActive = isSorted && sortDir === "asc";
       const downActive = isSorted && sortDir === "desc";
@@ -113,7 +126,37 @@ function SmartTable<T>(props: SmartTableProps<T>) {
         header,
       } as SmartColumn<T>;
     });
-  }, [columns, sortKey, sortDir]);
+
+    if (!expandable) return conFlecha;
+
+    // La flecha va DELANTE y no detrás: es el mando de la fila, y quien lee la
+    // tabla la busca donde empieza el renglón, no al final de siete columnas.
+    const flecha: SmartColumn<T> = {
+      key: "__desplegable",
+      header: "",
+      width: 1,
+      cell: (row: T) => {
+        const clave = expandable.rowKey(row);
+        const abierta = abiertas.has(clave);
+        return (
+          <Button
+            look="ghost"
+            size="xs"
+            iconLeft={abierta ? "expand_less" : "expand_more"}
+            aria-expanded={abierta}
+            aria-label={expandable.label ?? "Ver detalle"}
+            onClick={(e) => {
+              // La tabla puede llevar `onRowClick`. Sin esto, abrir el detalle
+              // dispararía además lo que haga el clic en la fila.
+              e.stopPropagation();
+              alternar(clave);
+            }}
+          />
+        );
+      },
+    };
+    return [flecha, ...conFlecha];
+  }, [columns, sortKey, sortDir, expandable, abiertas]);
 
   return (
     <div className={`bg-base-100 rounded-xl flex flex-col gap-4 ${className ?? ""}`}>
@@ -146,7 +189,19 @@ function SmartTable<T>(props: SmartTableProps<T>) {
         </div>
       </div>
 
-      <Table<T> pinCols={pinCols} size={size} columns={tableColumns} data={pageRows} />
+      <Table<T>
+        pinCols={pinCols}
+        size={size}
+        columns={tableColumns}
+        data={pageRows}
+        // LA MISMA CLAVE QUE EL ESTADO DE APERTURA, y hace falta que sea la
+        // misma: `abiertas` dice QUÉ fila está abierta y esto dice a qué fila
+        // pertenece el panel ya montado. Con una sola de las dos, ordenar deja
+        // el panel bajo la fila correcta pero con el contenido del anterior.
+        rowKey={expandable ? (row) => expandable.rowKey(row) : undefined}
+        expandedContent={expandable ? (row) => expandable.content(row) : undefined}
+        isExpanded={expandable ? (row) => abiertas.has(expandable.rowKey(row)) : undefined}
+      />
 
       {paginated && (
         <div className="grid grid-cols-3 items-center border-t-2! border-base-300! border-dotted p-5!">
