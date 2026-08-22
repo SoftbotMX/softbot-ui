@@ -81,6 +81,21 @@ function SmartTable<T>(props: SmartTableProps<T>) {
     return [...filtered].sort(cmp);
   }, [filtered, columns, sortKey, sortDir]);
 
+  // LAS TRES VAN JUNTAS O NO VA NINGUNA, y por eso se arman aparte: el tipo de
+  // `Table` es una unión que no admite `expandedContent` sin `rowKey`, así que
+  // pasarlas sueltas con `undefined` ni siquiera compila. Es a propósito.
+  //
+  // LA MISMA CLAVE PARA LAS DOS COSAS: `abiertas` dice QUÉ fila está abierta y
+  // `rowKey` dice a qué fila pertenece el panel ya montado. Con una sola de las
+  // dos, ordenar deja el panel bajo la fila correcta con el contenido de otra.
+  const detalle = expandable
+    ? {
+        rowKey: (row: T) => expandable.rowKey(row),
+        expandedContent: (row: T) => expandable.content(row),
+        isExpanded: (row: T) => abiertas.has(expandable.rowKey(row)),
+      }
+    : {};
+
   const total = sorted.length;
   // Sin paginado la tabla enseña todo lo que tiene: una sola página con todas
   // las filas. Así el resto del cálculo no necesita ramas.
@@ -194,13 +209,7 @@ function SmartTable<T>(props: SmartTableProps<T>) {
         size={size}
         columns={tableColumns}
         data={pageRows}
-        // LA MISMA CLAVE QUE EL ESTADO DE APERTURA, y hace falta que sea la
-        // misma: `abiertas` dice QUÉ fila está abierta y esto dice a qué fila
-        // pertenece el panel ya montado. Con una sola de las dos, ordenar deja
-        // el panel bajo la fila correcta pero con el contenido del anterior.
-        rowKey={expandable ? (row) => expandable.rowKey(row) : undefined}
-        expandedContent={expandable ? (row) => expandable.content(row) : undefined}
-        isExpanded={expandable ? (row) => abiertas.has(expandable.rowKey(row)) : undefined}
+        {...detalle}
       />
 
       {paginated && (

@@ -13,7 +13,7 @@ export interface Column<T> {
   width?: number | string;
 }
 
-export interface TableProps<T> extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
+interface TableBase<T> extends Omit<React.HTMLAttributes<HTMLTableElement>, "children"> {
   columns: Column<T>[];
   data: T[];
   caption?: React.ReactNode;
@@ -30,39 +30,51 @@ export interface TableProps<T> extends Omit<React.HTMLAttributes<HTMLTableElemen
   pinRows?: "header" | "footer" | "both";
   pinCols?: boolean;
   size?: TableSize;
-  /**
-   * La identidad de cada fila, para el `key` de React.
-   *
-   * SIN ESTO REACT IDENTIFICA LAS FILAS POR POSICIÓN, y al reordenar o paginar
-   * reutiliza el subárbol de la posición 2 para lo que ahora vive ahí. Con
-   * filas planas apenas se nota; con `expandedContent` sí: el panel abierto
-   * conserva el estado del registro anterior —lo que había pedido, lo que el
-   * usuario escribió dentro— bajo la fila de otro. No da ningún error.
-   *
-   * `SmartTable` la pasa sola cuando le dan `expandable`.
-   */
-  rowKey?: (row: T, index: number) => React.Key;
-
   rowClassName?: (row: T, index: number) => string | undefined;
   onRowClick?: (row: T, index: number) => void;
   valueGetter?: (row: T, key: string) => React.ReactNode;
-
-  /**
-   * El panel que se despliega DEBAJO de una fila, a todo lo ancho.
-   *
-   * Se pinta en un `<tr>` propio con un `<td colSpan>`, que es la única forma
-   * de que una tabla admita detalle sin romper la rejilla de columnas: meterlo
-   * dentro de una celda lo encajonaría en el ancho de esa columna.
-   *
-   * Solo se llama para las filas que `isExpanded` da por abiertas, así que un
-   * detalle caro —una consulta, una lista larga— no se construye para las
-   * filas cerradas.
-   */
-  expandedContent?: (row: T, index: number) => React.ReactNode;
-
-  /** Qué filas están abiertas. Sin esto no se despliega ninguna. */
-  isExpanded?: (row: T, index: number) => boolean;
 }
+
+/**
+ * La identidad de cada fila, para el `key` de React.
+ *
+ * TIENE QUE SER ÚNICA Y ESTABLE mientras la tabla viva. Única porque dos filas
+ * con la misma clave son, para React, la misma: hermanas con clave repetida
+ * reconcilian de forma indeterminada. Y estable porque cambiarla desmonta la
+ * fila —se pierde lo que hubiera dentro— mientras que reutilizarla para otro
+ * registro le entrega el estado del anterior. Un id de la base sirve; el índice
+ * del arreglo, no.
+ */
+type ClaveDeFila<T> = (row: T, index: number) => React.Key;
+
+/**
+ * Una tabla sin detalle desplegable. `rowKey` sigue mereciendo la pena —React
+ * reconcilia mejor y no se pierde el foco al reordenar— pero no es obligatoria:
+ * sin panel que conserve estado, identificar por posición no rompe nada visible.
+ */
+interface SinDetalle<T> {
+  expandedContent?: never;
+  isExpanded?: never;
+  rowKey?: ClaveDeFila<T>;
+}
+
+/**
+ * Con detalle desplegable, `rowKey` ES OBLIGATORIA, y el tipo es el que lo
+ * impone porque la disciplina no bastó: la primera versión de esto la dejó
+ * opcional, y entonces React identificaba las filas por posición. Al reordenar,
+ * el panel se quedaba bajo la fila correcta CON EL ESTADO DEL REGISTRO ANTERIOR
+ * —lo que había pedido, lo que el usuario hubiera escrito dentro—. No da ningún
+ * error. Ahora no compila.
+ */
+interface ConDetalle<T> {
+  /** Qué se pinta al abrir la fila. Solo se llama para las abiertas. */
+  expandedContent: (row: T, index: number) => React.ReactNode;
+  /** Qué filas están abiertas. */
+  isExpanded: (row: T, index: number) => boolean;
+  rowKey: ClaveDeFila<T>;
+}
+
+export type TableProps<T> = TableBase<T> & (SinDetalle<T> | ConDetalle<T>);
 
 function getByPath(obj: any, path: string) {
   if (!path) return undefined;
@@ -70,6 +82,9 @@ function getByPath(obj: any, path: string) {
 }
 
 const Table = <T,>(props: TableProps<T>) => {
+  // La unión no se puede desestructurar directamente: TypeScript no sabe en qué
+  // rama está hasta mirar los valores. Se ensancha a «todo opcional» para leer,
+  // que es seguro porque el tipo público ya impidió la combinación mala.
   const {
     columns,
     data,
@@ -87,7 +102,7 @@ const Table = <T,>(props: TableProps<T>) => {
     expandedContent,
     isExpanded,
     ...rest
-  } = props;
+  } = props as TableBase<T> & Partial<ConDetalle<T>>;
 
   const tableCls = clsx(
     "table",
