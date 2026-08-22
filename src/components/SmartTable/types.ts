@@ -18,6 +18,14 @@ export interface SmartColumn<T> extends Column<T> {
  * abierto bajo el equivocado, con los datos del anterior. No da ningún error y
  * es exactamente el fallo que una tabla de comparación no puede permitirse.
  * Con una clave propia del registro, ordenar y paginar no mueven nada.
+ *
+ * TIENE QUE SER ÚNICA, además de estable. Dos filas con la misma clave son, para
+ * el conjunto de abiertas Y para React, la misma fila: abrir una abre las dos y
+ * el estado de sus paneles queda indeterminado.
+ *
+ * Y OJO CON `__desplegable`: es la clave de la columna de la flecha, que se
+ * añade delante de las tuyas. Una columna propia con ese mismo `key` produce
+ * cabeceras y celdas con clave repetida.
  */
 export interface SmartExpandable<T> {
   /** Identidad del registro. Un id, una clave — algo que no dependa del orden. */

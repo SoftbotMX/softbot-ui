@@ -71,7 +71,10 @@ export const Sizes: Story = {
 
 export const PinnedHeaderFooter: Story = {
   args: { pinRows: "both", caption: "Pinned header & footer (scroll container)" },
-  render: (args) => (
+  // El tipo va escrito porque `TableProps` es una unión —con detalle
+  // desplegable `rowKey` es obligatoria— y Storybook no infiere los args a
+  // través de ella.
+  render: (args: TableProps<Row>) => (
     <div className="h-64 overflow-auto rounded-box border border-base-300 p-2">
       <Table<Row> {...args} />
     </div>

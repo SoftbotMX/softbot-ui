@@ -28,6 +28,12 @@ jobs:
       - name: Install deps (Yarn)
         run: yarn install --immutable
 
+      # LAS PRUEBAS ANTES DE PUBLICAR, y no en un flujo aparte que se pueda
+      # ignorar: lo que sale de aquí lo instalan cuatro proyectos, y una versión
+      # rota se descubre en el de al lado.
+      - name: Test
+        run: yarn test
+
       - name: Build
         run: yarn build
 
