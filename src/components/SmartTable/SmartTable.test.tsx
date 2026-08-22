@@ -164,8 +164,13 @@ describe("el detalle desplegable pertenece a su fila", () => {
     await userEvent.click(flechaDe("Haiku"));
     await userEvent.type(panelDe("Haiku"), "algo");
     await userEvent.click(flechaDe("Haiku"));
-    await userEvent.click(flechaDe("Haiku"));
 
+    // SE COMPRUEBA QUE DESAPARECE, y esto faltaba: sin esta línea la prueba
+    // pasaba también si «cerrar» dejara el panel a la vista y solo reiniciara su
+    // contenido, que es otra cosa y con otras consecuencias. Lo señaló codex.
+    expect(screen.queryByLabelText("borrador de Haiku")).toBeNull();
+
+    await userEvent.click(flechaDe("Haiku"));
     expect((panelDe("Haiku") as HTMLInputElement).value).toBe("");
   });
 });

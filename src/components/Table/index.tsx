@@ -120,6 +120,30 @@ const Table = <T,>(props: TableProps<T>) => {
     ...rest
   } = props as TableBaseProps<T> & Partial<ConDetalle<T>>;
 
+  // DETALLE SIN IDENTIDAD: SE PARA AQUÍ, no se pinta mal.
+  //
+  // El tipo ya lo impide, pero se puede rodear: ensanchar el objeto a
+  // `TableBaseProps` —o escribir un envoltorio genérico
+  // `<P extends TableBaseProps<T>>`, que es lo que uno escribe sin pensar—
+  // borra la comprobación de propiedades sobrantes y las props llegan igual en
+  // ejecución. Entonces React vuelve a identificar las filas por posición y el
+  // panel abierto se queda con el estado del registro de al lado.
+  //
+  // REVIENTA en vez de avisar por consola porque el síntoma es ENSEÑAR DATOS DE
+  // OTRO REGISTRO como si fueran de este. Una tabla que no carga se arregla; una
+  // que miente, no se nota.
+  //
+  // Y VA ANTES DE PINTAR NADA, no dentro del bucle de filas: con la tabla vacía
+  // —que es como empieza casi siempre, mientras carga— no habría bucle y el
+  // aviso no llegaría hasta que hubiera datos. Es decir, tarde.
+  if (expandedContent && !rowKey) {
+    throw new Error(
+      "Table: `expandedContent` necesita `rowKey`. Sin ella React identifica las filas " +
+        "por su posición y al reordenar el panel abierto conserva el estado de la fila " +
+        "anterior.",
+    );
+  }
+
   const tableCls = clsx(
     "table",
     zebra && "table-zebra",

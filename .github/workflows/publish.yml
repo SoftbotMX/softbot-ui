@@ -36,6 +36,13 @@ jobs:
       # LAS PRUEBAS ANTES DE PUBLICAR, y no en un flujo aparte que se pueda
       # ignorar: lo que sale de aquí lo instalan cuatro proyectos, y una versión
       # rota se descubre en el de al lado.
+      # EL TIPO ES PARTE DEL PAQUETE. Vitest transpila y tira los tipos, así que
+      # `yarn test` en verde no dice nada de las declaraciones que se publican —
+      # y el plugin que las genera registra los diagnósticos sin fallar. Sin esta
+      # línea, una unión rota salía publicada y reventaba en el repo de otro.
+      - name: Typecheck
+        run: yarn typecheck
+
       - name: Test
         run: yarn test
 
