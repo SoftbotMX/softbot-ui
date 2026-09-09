@@ -199,6 +199,36 @@
   }
 
   &.outline {
+    /* ── EL BORDE SE DIBUJABA DOS VECES EN LOS PROYECTOS QUE NOS CONSUMEN ────
+     *
+     * NO ES UN DEFECTO DE ESTA HOJA POR SÍ SOLA: ES UNA COLISIÓN DE NOMBRES.
+     * `Button look="outline"` emite `class="btn outline sm"`, y Tailwind 4 tiene
+     * una utilidad que se llama IGUAL —`.outline`, que pone
+     * `outline-style: solid; outline-width: 1px`—. Un consumidor que le mande a
+     * Tailwind escanear nuestro `dist` (`@source`, que hace falta para que
+     * existan las utilidades que usamos en el JS) hace que Tailwind VEA la
+     * palabra «outline» y GENERE esa utilidad. A partir de ahí, cada botón
+     * perfilado pinta su borde Y un `outline` de verdad 2px más afuera.
+     *
+     * Se ve en la pantalla y en ningún otro sitio: los tipos compilan, el DOM es
+     * el que queríamos y las clases son las que ponemos aquí. Salió comparando
+     * la mesa de MDX con su mockup.
+     *
+     * ESTO ES EL PARCHE, NO EL ARREGLO. El arreglo es que las variantes dejen de
+     * llamarse como utilidades de Tailwind —`btn-outline` en vez de `outline`—,
+     * y eso cambia el DOM de todos los consumidores: lo decide quien mantiene el
+     * kit. Ver la descripción del PR. Mientras tanto, esto lo cierra para todos
+     * sin que nadie tenga que enterarse.
+     *
+     * `:not(:focus-visible, :has(:focus-visible))` NO ES ADORNO. Sin esa parte,
+     * la regla gana también al `outline` que pintamos al enfocar con el teclado
+     * —lo declara `.btn:focus-visible` tres bloques más arriba— y nos llevaríamos
+     * por delante el anillo de foco, que es accesibilidad y no estética. Con
+     * ella, al enfocar el selector deja de casar y manda el de arriba. */
+    &:not(:focus-visible, :has(:focus-visible)) {
+      outline-style: none;
+    }
+
     &:not(
       &.active,
       :hover,
