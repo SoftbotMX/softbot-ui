@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
+import { expect, userEvent, within } from "storybook/test";
 
 import Modal, { type ModalProps } from "./index";
 
@@ -173,5 +174,49 @@ export const CustomBoxSize: Story = {
         </Modal>
       </div>
     );
+  },
+};
+
+function TecladoDemo(args: ModalProps) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <button className="btn" onClick={() => setOpen(true)}>
+        Abrir modal
+      </button>
+      <button className="btn btn-ghost">Botón de fondo</button>
+      <Modal
+        {...args}
+        title="Redes de la cabecera"
+        open={open}
+        onOpenChange={setOpen}
+        actions={
+          <>
+            <button className="btn btn-ghost" onClick={() => setOpen(false)}>
+              Cancelar
+            </button>
+            <button className="btn btn-primary">Guardar</button>
+          </>
+        }
+      >
+        <input className="input" aria-label="Copy" placeholder="Copy de la publicación" />
+      </Modal>
+    </div>
+  );
+}
+
+/** Teclado: el foco entra al abrir, Tab no sale de la caja y al cerrar vuelve al disparador (issue #9). */
+export const Teclado: Story = {
+  render: (args) => <TecladoDemo {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.ownerDocument.body);
+    const abrir = canvas.getByRole("button", { name: "Abrir modal" });
+    await userEvent.click(abrir);
+    const dialogo = canvas.getByRole("dialog", { name: "Redes de la cabecera" });
+    await expect(canvas.getByRole("textbox", { name: "Copy" })).toHaveFocus();
+    for (let i = 0; i < 4; i++) await userEvent.tab();
+    await expect(dialogo).toContainElement(canvasElement.ownerDocument.activeElement as HTMLElement);
+    await userEvent.keyboard("{Escape}");
+    await expect(abrir).toHaveFocus();
   },
 };
