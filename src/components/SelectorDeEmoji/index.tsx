@@ -11,6 +11,7 @@
  */
 import clsx from "clsx";
 import { EmojiPicker } from "frimousse";
+import { useState } from "react";
 
 import Button, { type ButtonSize } from "../Button";
 import Dropdown, { type DropDownPlacement, type DropdownSide } from "../Dropdown";
@@ -62,8 +63,38 @@ export interface SelectorDeEmojiProps {
   size?: ButtonSize;
   disabled?: boolean;
   placement?: DropDownPlacement;
-  side?: DropdownSide;
+  /** Hacia dónde se abre. Con `"auto"` (por omisión) baja si cabe y, si no,
+   *  sube: dentro de un diálogo o de un panel que recorta, abrir siempre hacia
+   *  abajo dejaba la cuadrícula cortada. */
+  side?: DropdownSide | "auto";
   className?: string;
+}
+
+/** Lo que ocupa el panel abierto, en rem: los 20 de la cuadrícula y el relleno
+ *  (`styles.css`). */
+const ALTO_EN_REM = 21;
+
+/** Abajo si cabe; si no, del lado con más sitio. «Cabe» es dentro del primer
+ *  antepasado que recorta —la caja del diálogo— o de la ventana. */
+function ladoQueCabe(desde: HTMLElement | null): DropdownSide {
+  if (desde === null) return "bottom";
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  const alto = ALTO_EN_REM * rem;
+  const boton = desde.getBoundingClientRect();
+  let arriba = 0;
+  let abajo = window.innerHeight;
+  for (let el = desde.parentElement; el !== null; el = el.parentElement) {
+    const { overflowY } = getComputedStyle(el);
+    if (overflowY !== "visible") {
+      const caja = el.getBoundingClientRect();
+      arriba = Math.max(arriba, caja.top);
+      abajo = Math.min(abajo, caja.bottom);
+      break;
+    }
+  }
+  const debajo = abajo - boton.bottom;
+  const encima = boton.top - arriba;
+  return debajo >= alto || debajo >= encima ? "bottom" : "top";
 }
 
 const SelectorDeEmoji = ({
@@ -77,19 +108,23 @@ const SelectorDeEmoji = ({
   size = "sm",
   disabled = false,
   placement = "end",
-  side = "bottom",
+  side = "auto",
   className,
 }: SelectorDeEmojiProps) => {
   const panel = usePanel(disabled);
+  const [lado, setLado] = useState<DropdownSide>("bottom");
   const abierto = panel.abierto;
 
   return (
     <Dropdown
       ref={panel.raiz}
       open={abierto}
-      onOpenChange={panel.setAbierto}
+      onOpenChange={(v) => {
+        if (v && side === "auto") setLado(ladoQueCabe(panel.raiz.current));
+        panel.setAbierto(v);
+      }}
       placement={placement}
-      side={side}
+      side={side === "auto" ? lado : side}
       className={clsx("selector-de-emoji", panel.clase, className)}
       trigger={
         <Button
