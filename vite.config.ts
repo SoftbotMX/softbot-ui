@@ -13,13 +13,28 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "SoftbotUI",
+      // FRIMOUSSE VA DENTRO, NO FUERA: su CommonJS 0.4.0 viene roto de origen
+      // (`return_optionalChain is not defined`, codex), y empaquetado desde su
+      // ESM sale bien en las dos salidas. Sólo lo carga la entrada `emoji`.
+      //
+      // TRES ENTRADAS: el editor y los emojis van aparte para que quien no
+      // los use no cargue TipTap ni frimousse.
+      entry: {
+        index: path.resolve(__dirname, "src/index.ts"),
+        editor: path.resolve(__dirname, "src/editor.ts"),
+        emoji: path.resolve(__dirname, "src/emoji.ts"),
+      },
       formats: ["es", "cjs"],
-      fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"),
+      fileName: (format, nombre) => `${nombre}.${format === "es" ? "mjs" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "tailwindcss"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "tailwindcss",
+        /^@tiptap\//,
+      ],
       output: {
         globals: { react: "React", "react-dom": "ReactDOM", tailwindcss: "tailwindcss" },
       },
