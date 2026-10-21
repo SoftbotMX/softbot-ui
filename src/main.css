@@ -16,6 +16,7 @@
 @import url("./components/Diff/styles.css");
 @import url("./components/Divider/styles.css");
 @import url("./components/Dropdown/styles.css");
+@import url("./components/EditorClasico/styles.css");
 @import url("./components/Fab/styles.css");
 @import url("./components/Fieldset/styles.css");
 @import url("./components/FileInput/styles.css");
@@ -36,6 +37,7 @@
 @import url("./components/Range/styles.css");
 @import url("./components/Rating/styles.css");
 @import url("./components/Select/styles.css");
+@import url("./components/SelectorDeEmoji/styles.css");
 @import url("./components/Skeleton/styles.css");
 @import url("./components/Stack/styles.css");
 @import url("./components/Stat/styles.css");
