@@ -101,7 +101,7 @@ const Rating = (props: RatingProps) => {
             key={idx}
             type="radio"
             name={groupName}
-            className={clsx(itemClassName, tone && `text-${tone}`)}
+            className={clsx(itemClassName, tone && `rating-${tone}`)}
             aria-label={label}
             value={v}
             checked={checked}

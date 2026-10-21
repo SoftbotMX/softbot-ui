@@ -101,35 +101,38 @@
   }
 }
 
-.text-primary {
-  background-color: var(--color-primary) !important;
+/* El tono de las estrellas, acotado a .rating: suelto, `.text-neutral` le ponía fondo
+   a cualquier texto de quien consume el kit (issue #12). `rating-<tono>` es lo que pone
+   el componente; `text-<tono>` queda por quien lo pasaba en `itemClassName`. */
+.rating :is(.rating-primary, .text-primary) {
+  background-color: var(--color-primary);
 }
 
-.text-secondary {
+.rating :is(.rating-secondary, .text-secondary) {
   background-color: var(--color-secondary);
 }
 
-.text-accent {
+.rating :is(.rating-accent, .text-accent) {
   background-color: var(--color-accent);
 }
 
-.text-neutral {
+.rating :is(.rating-neutral, .text-neutral) {
   background-color: var(--color-neutral);
 }
 
-.text-info {
+.rating :is(.rating-info, .text-info) {
   background-color: var(--color-info);
 }
 
-.text-success {
+.rating :is(.rating-success, .text-success) {
   background-color: var(--color-success);
 }
 
-.text-warning {
+.rating :is(.rating-warning, .text-warning) {
   background-color: var(--color-warning);
 }
 
-.text-error {
+.rating :is(.rating-error, .text-error) {
   background-color: var(--color-error);
 }
 
