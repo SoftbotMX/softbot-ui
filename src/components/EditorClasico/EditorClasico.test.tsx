@@ -119,6 +119,30 @@ describe("lo que se pega", () => {
     expect(JSON.stringify(editor.getJSON())).not.toMatch(/class|target|rel|title/);
   });
 
+  it("un documento que entra como JSON tampoco saca un href ni un tamaño fuera de la lista", () => {
+    // EL JSON NO PASA POR EL ANALIZADOR DE HTML: lo que se guarda se vuelve a
+    // mirar al pintar (revisión de seguridad).
+    const { editor } = montar({
+      contenido: {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            attrs: { tamano: "1px;background:url(https://x)" },
+            content: [
+              { type: "text", marks: [{ type: "link", attrs: { href: "javascript:alert(1)" } }], text: "malo" },
+            ],
+          },
+        ],
+      },
+    });
+
+    const html = editor.getHTML();
+    expect(html).not.toContain("javascript");
+    expect(html).not.toContain("style");
+    expect(editor.view.dom.innerHTML).not.toContain("javascript");
+  });
+
   it("los subtítulos, citas y listas sí pasan", () => {
     const { editor } = montar();
 

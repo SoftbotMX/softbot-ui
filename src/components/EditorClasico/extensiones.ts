@@ -63,8 +63,10 @@ export const TamanoDeTexto = Extension.create({
               const v = el.style.fontSize;
               return VALORES.has(v) ? v : null;
             },
+            // SE VUELVE A MIRAR AL PINTAR: un documento que entra como JSON
+            // no pasa por `parseHTML`, y el atributo llegaría tal cual al `style`.
             renderHTML: (attrs: { tamano?: string | null }) =>
-              attrs.tamano ? { style: `font-size:${attrs.tamano}` } : {},
+              attrs.tamano && VALORES.has(attrs.tamano) ? { style: `font-size:${attrs.tamano}` } : {},
           },
         },
       },
@@ -89,8 +91,13 @@ const EnlaceDelClasico = Link.extend({
   addAttributes() {
     return { href: { default: null } };
   },
+  // EL PROTOCOLO SE VUELVE A MIRAR AL PINTAR. El `renderHTML` de TipTap ya lo
+  // hacía, y reescribirlo lo quitó: un documento que entra como JSON —el que
+  // el consumidor arma desde lo guardado— no pasa por `parseHTML`, y un
+  // `javascript:` salía en el `href` (revisión de seguridad).
   renderHTML({ HTMLAttributes }) {
-    return ["a", { href: HTMLAttributes.href }, 0];
+    const href = HTMLAttributes.href;
+    return ["a", typeof href === "string" && enlacePermitido(href) ? { href } : {}, 0];
   },
 });
 
