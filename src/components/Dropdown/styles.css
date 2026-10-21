@@ -253,3 +253,12 @@
     opacity: 0;
   }
 }
+
+/* EL PANEL CONTROLADO (`usePanel`) DEJA CLICAR SU DISPARADOR CON EL FOCO DENTRO.
+ * La regla de arriba se lo quita mientras el dropdown tiene el foco, que es
+ * como el dropdown sin controlar evita cerrarse y abrirse en el mismo clic.
+ * Pero `usePanel` devuelve el foco al botón al cerrar con Escape, y con esa
+ * regla ya no se podía volver a abrir con el ratón (codex). */
+.dropdown.panel-controlado.panel-controlado > [tabindex]:first-child {
+  pointer-events: auto;
+}
