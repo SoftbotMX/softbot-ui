@@ -98,74 +98,76 @@
   @apply w-40 text-5xl;
 }
 
-.ring-primary {
+/* Acotadas a .avatar: sueltas, `.bg-primary` y `.ring-primary` le cambiaban el color
+   del texto a quien consume el kit (issue #12). */
+.avatar .ring-primary {
   color: var(--color-primary);
 }
 
-.ring-secondary {
+.avatar .ring-secondary {
   color: var(--color-secondary);
 }
 
-.ring-accent {
+.avatar .ring-accent {
   color: var(--color-accent);
 }
 
-.ring-neutral {
+.avatar .ring-neutral {
   color: var(--color-neutral);
 }
 
-.ring-info {
+.avatar .ring-info {
   color: var(--color-info);
 }
 
-.ring-success {
+.avatar .ring-success {
   color: var(--color-success);
 }
 
-.ring-warning {
+.avatar .ring-warning {
   color: var(--color-warning);
 }
 
-.ring-error {
+.avatar .ring-error {
   color: var(--color-error);
 }
 
-.bg-primary {
+.avatar .bg-primary {
   color: var(--color-primary-content);
   background-color: var(--color-primary);
 }
 
-.bg-secondary {
+.avatar .bg-secondary {
   color: var(--color-secondary-content);
   background-color: var(--color-secondary);
 }
 
-.bg-accent {
+.avatar .bg-accent {
   color: var(--color-accent-content);
   background-color: var(--color-accent);
 }
 
-.bg-neutral {
+.avatar .bg-neutral {
   color: var(--color-neutral-content);
   background-color: var(--color-neutral);
 }
 
-.bg-info {
+.avatar .bg-info {
   color: var(--color-info-content);
   background-color: var(--color-info);
 }
 
-.bg-success {
+.avatar .bg-success {
   color: var(--color-success-content);
   background-color: var(--color-success);
 }
 
-.bg-warning {
+.avatar .bg-warning {
   color: var(--color-warning-content);
   background-color: var(--color-warning);
 }
 
-.bg-error {
+.avatar .bg-error {
   color: var(--color-error-content);
   background-color: var(--color-error);
 }
