@@ -85,6 +85,30 @@ describe("el selector de emojis", () => {
     expect(screen.getByPlaceholderText("Buscar emoji…")).not.toBeNull();
   });
 
+  it("se abre hacia arriba cuando abajo no cabe, dentro de lo que recorta", async () => {
+    // EN EL DIÁLOGO REDES, la red de abajo dejaba la cuadrícula cortada por la
+    // caja del diálogo (codex). jsdom no mide: se le dan las medidas a mano.
+    const rect = (top: number, bottom: number) =>
+      ({ top, bottom, left: 0, right: 0, width: 0, height: bottom - top, x: 0, y: top }) as DOMRect;
+    const { container } = render(
+      <div data-caja style={{ overflowY: "auto" }}>
+        <SelectorDeEmoji onElegir={vi.fn()} />
+      </div>,
+    );
+    const caja = container.querySelector<HTMLElement>("[data-caja]")!;
+    const raiz = container.querySelector<HTMLElement>(".dropdown")!;
+    caja.getBoundingClientRect = () => rect(100, 700);
+
+    raiz.getBoundingClientRect = () => rect(640, 670);
+    await userEvent.click(screen.getByRole("button", { name: "Insertar emoji" }));
+    expect(raiz.classList.contains("dropdown-top")).toBe(true);
+
+    await userEvent.keyboard("{Escape}");
+    raiz.getBoundingClientRect = () => rect(150, 180);
+    await userEvent.click(screen.getByRole("button", { name: "Insertar emoji" }));
+    expect(raiz.classList.contains("dropdown-bottom")).toBe(true);
+  });
+
   it("apagado no abre", async () => {
     render(<SelectorDeEmoji onElegir={vi.fn()} disabled />);
 
