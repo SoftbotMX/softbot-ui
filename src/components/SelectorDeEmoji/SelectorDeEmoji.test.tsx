@@ -97,9 +97,11 @@ describe("el selector de emojis", () => {
     );
     const caja = container.querySelector<HTMLElement>("[data-caja]")!;
     const raiz = container.querySelector<HTMLElement>(".dropdown")!;
-    caja.getBoundingClientRect = () => rect(100, 700);
+    // LA CAJA, NO LA VENTANA: contra los 768 px de jsdom el disparador de
+    // abajo cabría (codex), contra la caja no.
+    caja.getBoundingClientRect = () => rect(50, 500);
 
-    raiz.getBoundingClientRect = () => rect(640, 670);
+    raiz.getBoundingClientRect = () => rect(400, 430);
     await userEvent.click(screen.getByRole("button", { name: "Insertar emoji" }));
     expect(raiz.classList.contains("dropdown-top")).toBe(true);
 
