@@ -1,0 +1,65 @@
+/* La cuadrícula de `frimousse`, que llega sin estilo: lo pone el kit. */
+
+.selector-de-emoji-caja {
+  width: 19rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-box);
+
+  @apply bg-base-100 shadow-lg;
+
+  & [frimousse-root] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    height: 20rem;
+  }
+}
+
+.selector-de-emoji-vista {
+  position: relative;
+  flex: 1;
+  outline: none;
+}
+
+.selector-de-emoji-aviso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  color: color-mix(in oklab, var(--color-base-content) 60%, #0000);
+}
+
+.selector-de-emoji-lista {
+  user-select: none;
+  padding-bottom: 0.375rem;
+
+  & [frimousse-category-header] {
+    padding: 0.5rem 0.25rem 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: color-mix(in oklab, var(--color-base-content) 60%, #0000);
+
+    @apply bg-base-100;
+  }
+
+  & [frimousse-row] {
+    padding-inline: 0.125rem;
+  }
+
+  & [frimousse-emoji] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    border-radius: var(--radius-selector);
+    background: transparent;
+
+    &[data-active] {
+      background: color-mix(in oklab, var(--color-base-content) 10%, #0000);
+    }
+  }
+}
