@@ -44,6 +44,7 @@ export interface TextosDelEditor {
   enlaceAplicar: string;
   enlaceQuitar: string;
   enlaceInvalido: string;
+  enlaceSinSeleccion: string;
   vinetas: string;
   numerada: string;
   tamano: string;
@@ -68,6 +69,7 @@ export const TEXTOS_DEL_EDITOR: TextosDelEditor = {
   enlaceAplicar: "Aplicar",
   enlaceQuitar: "Quitar enlace",
   enlaceInvalido: "Sólo enlaces http, https o mailto",
+  enlaceSinSeleccion: "Selecciona el texto que quieres enlazar",
   vinetas: "Lista con viñetas",
   numerada: "Lista numerada",
   tamano: "Tamaño de letra",
@@ -123,6 +125,13 @@ function hayParrafo(e: Editor): boolean {
     return !hay;
   });
   return hay || e.isActive("paragraph");
+}
+
+/** Si hay letras seleccionadas: es sobre lo que cae un enlace. Unos espacios
+ *  o una figura no cuentan. */
+function hayTextoSeleccionado(e: Editor): boolean {
+  const { from, to, empty } = e.state.selection;
+  return !empty && e.state.doc.textBetween(from, to, " ").trim() !== "";
 }
 
 /** Saca de sus citas y listas cada párrafo de la selección, y sólo esos: en
@@ -232,6 +241,7 @@ const EditorClasico = ({
             negrita: e.isActive("bold"),
             cursiva: e.isActive("italic"),
             enlace: e.isActive("link"),
+            conTexto: hayTextoSeleccionado(e),
             href: (e.getAttributes("link").href as string | undefined) ?? "",
             vinetas: e.isActive("bulletList"),
             numerada: e.isActive("orderedList"),
@@ -287,7 +297,14 @@ const EditorClasico = ({
         >
           <i aria-hidden="true">I</i>
         </Button>
-        <BotonDeEnlace editor={editor} activo={estado.enlace} href={estado.href} t={t} off={off} />
+        <BotonDeEnlace
+          editor={editor}
+          activo={estado.enlace}
+          conTexto={estado.conTexto}
+          href={estado.href}
+          t={t}
+          off={off}
+        />
         <span className="editor-clasico-separador" aria-hidden="true" />
         <Button
           size="sm"
@@ -369,12 +386,14 @@ const EditorClasico = ({
 function BotonDeEnlace({
   editor,
   activo,
+  conTexto,
   href,
   t,
   off,
 }: {
   editor: Editor;
   activo: boolean;
+  conTexto: boolean;
   href: string;
   t: TextosDelEditor;
   off: boolean;
@@ -383,6 +402,10 @@ function BotonDeEnlace({
   const abierto = panel.abierto;
   const [url, setUrl] = React.useState("");
   const valida = url.trim() === "" || enlacePermitido(url.trim());
+  // DENTRO DE UN ENLACE SÍ, aunque no haya selección: es como se edita o se
+  // quita. APAGADO Y NO `disabled`, que no enseña su `title` al pasar el ratón:
+  // el clic llega, y no abre.
+  const apagado = !activo && !conTexto;
 
   const aplicar = () => {
     const u = url.trim();
@@ -398,6 +421,7 @@ function BotonDeEnlace({
       className={panel.clase}
       open={abierto}
       onOpenChange={(v) => {
+        if (v && apagado) return;
         if (v) setUrl(href);
         panel.setAbierto(v);
       }}
@@ -408,7 +432,9 @@ function BotonDeEnlace({
           aria-label={t.enlace}
           aria-pressed={activo}
           aria-expanded={abierto}
-          title={t.enlace}
+          aria-disabled={apagado || undefined}
+          title={apagado ? t.enlaceSinSeleccion : t.enlace}
+          className={clsx(apagado && "editor-clasico-apagado")}
           disabled={off}
         >
           <span aria-hidden="true">🔗</span>
