@@ -134,3 +134,9 @@
   font-size: 0.75rem;
   color: var(--color-error);
 }
+
+/* Se ve apagado sin estar `disabled`: así enseña su `title` al pasar el ratón. */
+.editor-clasico-apagado {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

@@ -317,7 +317,10 @@ describe("la barra", () => {
   });
 
   it("el panel del enlace se cierra con Escape desde cualquier botón, y devuelve el foco", async () => {
-    montar({ contenido: { type: "doc", content: [p("Nota")] } });
+    const { editor } = montar({ contenido: { type: "doc", content: [p("Nota")] } });
+    act(() => {
+      editor.commands.selectAll();
+    });
     const boton = screen.getByRole("button", { name: "Enlace" });
 
     await userEvent.click(boton);
@@ -330,12 +333,79 @@ describe("la barra", () => {
   });
 
   it("y con un clic fuera", async () => {
-    montar({ contenido: { type: "doc", content: [p("Nota")] } });
+    const { editor } = montar({ contenido: { type: "doc", content: [p("Nota")] } });
+    act(() => {
+      editor.commands.selectAll();
+    });
 
     await userEvent.click(screen.getByRole("button", { name: "Enlace" }));
     await userEvent.click(document.body);
 
     expect(screen.queryByRole("textbox", { name: "Enlace" })).toBeNull();
+  });
+
+  // SIN TEXTO SELECCIONADO EL ENLACE NO TIENE SOBRE QUÉ CAER: «Aplicar»
+  // cerraba el panel, el documento no cambiaba y la mesa no ofrecía guardar
+  // (MDX, nota 141). El botón se apaga y dice por qué. No con `disabled`: un
+  // botón desactivado no enseña su `title` al pasar el ratón.
+  it("sin texto seleccionado el enlace está apagado, dice por qué y no abre", async () => {
+    const { editor } = montar({ contenido: { type: "doc", content: [p("Nota")] } });
+    act(() => {
+      editor.commands.setTextSelection(3);
+    });
+
+    const boton = screen.getByRole("button", { name: "Enlace" });
+    expect(boton.getAttribute("aria-disabled")).toBe("true");
+    expect(boton.getAttribute("title")).toBe("Selecciona el texto que quieres enlazar");
+    // SE MIRA DESPUÉS DE CADA UNO: un Enter con el panel abierto lo aplica y lo
+    // cierra, y la prueba pasaba con la guarda borrada.
+    await userEvent.click(boton);
+    expect(screen.queryByRole("textbox", { name: "Enlace" })).toBeNull();
+    boton.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(screen.queryByRole("textbox", { name: "Enlace" })).toBeNull();
+  });
+
+  it("seleccionar sólo espacios no cuenta como texto", () => {
+    const { editor } = montar({ contenido: { type: "doc", content: [p("Uno   dos")] } });
+    act(() => {
+      editor.commands.setTextSelection({ from: 4, to: 7 });
+    });
+
+    expect(screen.getByRole("button", { name: "Enlace" }).getAttribute("aria-disabled")).toBe("true");
+  });
+
+  it("con texto seleccionado se enciende", () => {
+    const { editor } = montar({ contenido: { type: "doc", content: [p("Ver nota")] } });
+    act(() => {
+      editor.commands.setTextSelection({ from: 5, to: 9 });
+    });
+
+    const boton = screen.getByRole("button", { name: "Enlace" });
+    expect(boton.getAttribute("aria-disabled")).toBeNull();
+    expect(boton.getAttribute("title")).toBe("Enlace");
+  });
+
+  it("y dentro de un enlace también, sin seleccionar: es como se edita o se quita", async () => {
+    const { editor } = montar({
+      contenido: {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [{ type: "text", text: "Nota", marks: [{ type: "link", attrs: { href: "https://expreso.press" } }] }],
+          },
+        ],
+      },
+    });
+    act(() => {
+      editor.commands.setTextSelection(3);
+    });
+
+    await userEvent.click(screen.getByRole("button", { name: "Enlace" }));
+    await userEvent.click(screen.getByRole("button", { name: "Quitar enlace" }));
+
+    expect(editor.getHTML()).toBe("<p>Nota</p>");
   });
 
   it("el emoji entra donde está el cursor", async () => {
